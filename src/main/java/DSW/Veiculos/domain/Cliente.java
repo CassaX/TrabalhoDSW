@@ -10,42 +10,41 @@ import java.util.Date;
 @Entity
 @Table(name = "Cliente")
 public class Cliente extends AbstractEntity<Long> {
-  
-	@NotBlank
-    @Column(nullable = false, length = 100, unique = true)
-    private String email;
-    
-	@NotBlank
-    @Column(nullable = false, length = 64)
-    private String senha;
-       
-    @NotBlank
-    @Column(nullable = false, length = 14)
-    private String CPF;
-    
-    @NotBlank
-    @Column(nullable = false, length = 14)
-    private String nome;
 
 	@NotBlank
-    @Column(nullable = false, length = 11)
-    private String telefone;
-    
-	@NotBlank
-    @Column(nullable = false, length = 10)
-    private String sexo;
+	@Column(nullable = false, length = 100, unique = true)
+	private String email;
 
 	@NotBlank
-    @Column(nullable = false, length = 10)
-    private Date data_nasc;
+	@Column(nullable = false, length = 64)
+	private String senha;
 
-    @NotBlank
-    @Column(nullable = false, length = 10)
-    private String role;
-    
-    @Column(nullable = false)
-    private boolean enabled;
-		
+	@NotBlank
+	@Column(nullable = false, length = 14)
+	private String CPF;
+
+	@NotBlank
+	@Column(nullable = false, length = 14)
+	private String nome;
+
+	@NotBlank
+	@Column(nullable = false, length = 11)
+	private String telefone;
+
+	@NotBlank
+	@Column(nullable = false, length = 10)
+	private String sexo;
+
+	@NotBlank
+	@Column(nullable = false, length = 10)
+	private Date data_nasc;
+
+	@NotBlank
+	@Column(nullable = false, length = 10)
+	private String role;
+
+	@Column(nullable = false)
+	private boolean enabled;
 
 	public String getEmail() {
 		return email;
@@ -106,15 +105,15 @@ public class Cliente extends AbstractEntity<Long> {
 	public String getRole() {
 		return role;
 	}
-	
+
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
 	public boolean isEnabled() {
 		return enabled;
 	}
-	
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}

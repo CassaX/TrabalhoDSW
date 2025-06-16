@@ -1,4 +1,4 @@
-package DSW.Veiculos.DAO;
+package DSW.Veiculos.dao;
 
 import java.util.List;
 

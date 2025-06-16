@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import DSW.Veiculos.DAO.ILojaDAO;
+import DSW.Veiculos.dao.ILojaDAO;
 import DSW.Veiculos.domain.Loja;
 
 @Component
