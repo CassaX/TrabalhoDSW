@@ -1,4 +1,4 @@
-package br.ufscar.dc.dsw.domain;
+package DSW.Veiculos.domain;
 
 import java.util.Set;
 
@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Veiculo")
-public class Veiculo extends AbstractEntity{
+public class Veiculo extends AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +41,10 @@ public class Veiculo extends AbstractEntity{
 	@Column(nullable = false, unique = true, length = 8)
 	private String valor;
 
-  	@Column(nullable = false, unique = true, length = 10)
+	@Column(nullable = false, unique = true, length = 10)
 	private String fotos;
 
 	@OneToOne
 	private Loja loja;
 
-    public void setCnpj(Loja cnpj) {
-        this.cnpj = cnpj;
-    }
 }
