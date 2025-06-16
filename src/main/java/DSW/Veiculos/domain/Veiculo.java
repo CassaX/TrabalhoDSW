@@ -39,7 +39,7 @@ public class Veiculo extends AbstractEntity {
 	private String valor;
 
 	@Column(nullable = false, unique = true, length = 10)
-	private String fotos;
+	private String fotos[] = new fotos[10];
 
 	@OneToOne
 	private Loja loja;
