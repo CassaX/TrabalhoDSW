@@ -1,8 +1,6 @@
-package DSW.Veiculos.dao;
+package DSW.Veiculos.domain;
 
 import java.util.List;
-
-import DSW.Veiculos.domain.Loja;
 
 public interface ILojaDAO {
     void deleteById(Long id);
