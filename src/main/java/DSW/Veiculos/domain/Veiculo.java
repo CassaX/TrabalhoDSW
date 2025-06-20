@@ -1,5 +1,7 @@
 package DSW.Veiculos.domain;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -8,31 +10,31 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Veiculo")
-public class Veiculo extends AbstractEntity <Long> {
+public class Veiculo extends AbstractEntity {
 
 
 	@Column(nullable = false, unique = true, length = 7)
 	private String placa;
 
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, unique = true, length = 50)
 	private String modelo;
 
 	@Column(nullable = false, unique = true, length = 50)
 	private String chassi;
 
-	@Column(nullable = false, length = 4)
+	@Column(nullable = false, unique = true, length = 4)
 	private String ano;
 
-	@Column(nullable = false, length = 6)
+	@Column(nullable = false, unique = true, length = 6)
 	private int quilometragem;
 
-	@Column(nullable = false, length = 300)
+	@Column(nullable = false, unique = true, length = 300)
 	private String descricao;
 
-	@Column(nullable = false, length = 8)
-	private String valor;
+	@Column(nullable = false, unique = true, length = 8)
+	private BigDecimal valor;
 
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false, unique = true, length = 10)
 	private String fotos[] = new String[10];
 
 	@ManyToOne
@@ -88,11 +90,11 @@ public class Veiculo extends AbstractEntity <Long> {
 		this.descricao = descricao;
 	}
 
-	public String getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(String valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

@@ -19,20 +19,24 @@ public class ClienteService implements IClienteService {
 	@Autowired
 	IClienteDAO dao;
 
+	@Override
 	public void salvar(Cliente cliente) {
 		dao.save(cliente);
 	}
 
+	@Override
 	public void excluir(Long id) {
 		dao.deleteById(id);
 	}
 
 	@Transactional(readOnly = true)
+    @Override
 	public Cliente buscarPorId(Long id) {
 		return dao.findById(id.longValue());
 	}
 
 	@Transactional(readOnly = true)
+    @Override
 	public List<Cliente> buscarTodos() {
 		return dao.findAll();
 	}
