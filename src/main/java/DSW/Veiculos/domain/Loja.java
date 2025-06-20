@@ -84,4 +84,6 @@ public class Loja extends AbstractEntity<Long> {
         this.password = password;
     }
 
+    @ManyToOne
+    private Veiculo veiculos;
 }
