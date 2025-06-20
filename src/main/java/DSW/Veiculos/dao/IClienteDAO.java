@@ -1,10 +1,4 @@
-package DSW.Veiculos.dao;
-
-public class ClienteDAO {
-
-<<<<<<< Updated upstream:src/main/java/DSW/Veiculos/dao/ClienteDAO.java
-}
-=======
+package DSW.Veiculos.DAO;
 
 import java.util.List;
 
@@ -19,9 +13,11 @@ public interface IClienteDAO extends CrudRepository<Cliente, Long> {
 
 	Cliente findByCPF(String CPF);
 
-    @Override
+    @SuppressWarnings("null")
+	@Override
 	List<Cliente> findAll();
 	
+	@SuppressWarnings("null")
 	@Override
 	Cliente save(Cliente cliente);
 
@@ -31,4 +27,3 @@ public interface IClienteDAO extends CrudRepository<Cliente, Long> {
     Cliente findByEmail(String email);
 
 }
->>>>>>> Stashed changes:src/main/java/DSW/Veiculos/dao/IClienteDAO.java
