@@ -1,0 +1,16 @@
+package DSW.Veiculos.service.spec;
+
+
+import java.util.List;
+
+import DSW.Veiculos.domain.Proposta;
+import DSW.Veiculos.domain.Cliente;
+
+public interface IPropostaService {
+
+	Proposta buscarPorId(Long id);
+
+	List<Proposta> findByCliente(Cliente cliente);
+	
+	void salvar(Proposta loja);
+}
