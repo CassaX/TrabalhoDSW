@@ -1,22 +1,19 @@
 package DSW.Veiculos.DAO;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
 import DSW.Veiculos.domain.Loja;
 
-public interface ILojaDAO extends CrudRepository<Loja, Long>{
-
-    @Override
+public interface ILojaDAO {
     void deleteById(Long id);
 
     Loja findById(long id);
 
     Loja findByCNPJ(String CNPJ);
 
-    @SuppressWarnings({ "unchecked", "null" })
-    @Override
+    List<Loja> findAll();
+
     Loja save(Loja loja);
-    
+
     Loja findByEmail(String email);
-    
 }
