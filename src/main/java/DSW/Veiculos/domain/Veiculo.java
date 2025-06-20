@@ -41,7 +41,8 @@ public class Veiculo extends AbstractEntity {
 	@Column(nullable = false, unique = true, length = 10)
 	private String fotos[] = new fotos[10];
 
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "veiculo_id")
 	private Loja loja;
 
 }

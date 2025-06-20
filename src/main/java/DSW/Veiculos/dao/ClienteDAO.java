@@ -15,12 +15,14 @@ public interface ClienteDAO extends CrudRepository<Cliente, Long> {
 	
 	Cliente findById(long id);
 
+	Client findByCPF(String CPF);
+
 	List<Cliente> findAll();
 	
 	Cliente save(Cliente cliente);
 
 	void deleteById(Long id);
 	
-    @Query("SELECT u FROM Cliente u WHERE u.username = :username")
-    public Cliente getUserByUsername(@Param("username") String username);
+    Cliente findByEmail(String email);
+
 }
