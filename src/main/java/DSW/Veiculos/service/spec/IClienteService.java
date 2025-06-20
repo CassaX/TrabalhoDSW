@@ -5,7 +5,7 @@ import java.util.List;
 
 import DSW.Veiculos.domain.Cliente;
 
-public interface ClienteService {
+public interface IClienteService {
 
 	Cliente buscarPorId(Long id);
 
