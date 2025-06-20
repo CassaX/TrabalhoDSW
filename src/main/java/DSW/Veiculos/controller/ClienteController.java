@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import DSW.Veiculos.domain.Cliente;
-import DSW.Veiculos.service.spec.ClienteService;
+import DSW.Veiculos.service.spec.IClienteService;
 
 @Controller
 @RequestMapping("/cliente")
 public class ClienteController {
 	
 	@Autowired
-	private ClienteService service;
+	private IClienteService service;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
