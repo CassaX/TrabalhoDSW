@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import DSW.Veiculos.dao.IClienteDAO;
-import DSW.Veiculos.dao.ILojaDAO;
+import DSW.Veiculos.DAO.IClienteDAO;
+import DSW.Veiculos.DAO.ILojaDAO;
 import DSW.Veiculos.domain.Cliente;
 import DSW.Veiculos.domain.Loja;
 

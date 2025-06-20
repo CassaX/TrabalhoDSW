@@ -1,20 +1,9 @@
 package DSW.Veiculos.domain;
 
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-<<<<<<< Updated upstream
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-=======
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
->>>>>>> Stashed changes
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,16 +33,10 @@ public class Veiculo extends AbstractEntity {
 	private String valor;
 
 	@Column(nullable = false, unique = true, length = 10)
-<<<<<<< Updated upstream
-	private String fotos;
-
-	@OneToOne
-=======
 	private String fotos[] = new String[10];
 
 	@ManyToOne
 	@JoinColumn(name = "loja_id")
->>>>>>> Stashed changes
 	private Loja loja;
 
 

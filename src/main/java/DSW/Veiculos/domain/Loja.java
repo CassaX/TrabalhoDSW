@@ -89,10 +89,6 @@ public class Loja extends AbstractEntity<Long> {
         this.password = password;
     }
 
-<<<<<<< Updated upstream
-    @ManyToOne
-    private Veiculo veiculos;
-=======
     @OneToMany(mappedBy = "loja")
 	private List<Veiculo> veiculos;
 
@@ -105,5 +101,4 @@ public class Loja extends AbstractEntity<Long> {
     }
 
     
->>>>>>> Stashed changes
 }
