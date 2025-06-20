@@ -105,5 +105,8 @@ public class Loja extends AbstractEntity<Long> {
     }
 
     
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
