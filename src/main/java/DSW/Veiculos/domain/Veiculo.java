@@ -5,17 +5,12 @@ import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-=======
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
->>>>>>> Stashed changes
 =======
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -50,20 +45,14 @@ public class Veiculo extends AbstractEntity {
 
 	@Column(nullable = false, unique = true, length = 10)
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 	private String fotos;
 
 	@OneToOne
 =======
-=======
->>>>>>> Stashed changes
 	private String fotos[] = new String[10];
 
 	@ManyToOne
 	@JoinColumn(name = "loja_id")
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 	private Loja loja;
 
