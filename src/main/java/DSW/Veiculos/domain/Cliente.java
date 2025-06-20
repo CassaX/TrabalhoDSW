@@ -1,10 +1,11 @@
 package DSW.Veiculos.domain;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity

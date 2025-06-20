@@ -1,13 +1,12 @@
 package DSW.Veiculos.validation;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import DSW.Veiculos.dao.ILojaDAO;
+import DSW.Veiculos.DAO.ILojaDAO;
 import DSW.Veiculos.domain.Loja;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 @Component
 public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, String> {

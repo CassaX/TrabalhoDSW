@@ -1,4 +1,4 @@
-package DSW.Veiculos.dao;
+package DSW.Veiculos.DAO;
 
 import java.util.List;
 
@@ -14,4 +14,6 @@ public interface ILojaDAO {
     List<Loja> findAll();
 
     Loja save(Loja loja);
+
+    Loja findByEmail(String email);
 }

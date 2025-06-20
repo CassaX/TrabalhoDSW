@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import DSW.Veiculos.dao.IClienteDAO;
+import DSW.Veiculos.DAO.IClienteDAO;
 import DSW.Veiculos.domain.Cliente;
 import DSW.Veiculos.service.spec.IClienteService;
 
