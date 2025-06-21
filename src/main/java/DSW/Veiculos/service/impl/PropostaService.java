@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import DSW.Veiculos.domain.Proposta;
-import DSW.Veiculos.domain.Veiculo;
 import DSW.Veiculos.DAO.IPropostaDAO;
 import DSW.Veiculos.domain.Cliente;
+import DSW.Veiculos.domain.Proposta;
 import DSW.Veiculos.service.spec.IPropostaService;
 
 @Service
