@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import DSW.Veiculos.domain.Proposta;
 import DSW.Veiculos.domain.Veiculo;
 import DSW.Veiculos.domain.Cliente;
-import DSW.Veiculos.security.Cliente;
+import DSW.Veiculos.security.ClienteDetails;
 import DSW.Veiculos.service.spec.IPropostaService;
 import DSW.Veiculos.service.spec.IVeiculoService;
 import org.springframework.web.bind.annotation.RequestParam;

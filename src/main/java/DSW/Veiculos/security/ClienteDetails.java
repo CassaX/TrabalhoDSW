@@ -7,14 +7,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UsuarioDetails implements UserDetails {
+public class ClienteDetails implements UserDetails {
 
     private final String username;
     private final String password;
     private final String role;
     private final boolean enabled;
 
-    public UsuarioDetails(String username, String password, String role, boolean enabled) {
+    public ClienteDetails(String username, String password, String role, boolean enabled) {
         this.username = username;
         this.password = password;
         this.role = role;
