@@ -19,6 +19,11 @@
 							<a class="nav-link" th:href="@{/login}" th:text="#{login.button}">Login</a> </li>
                         <li class="nav-item" sec:authorize="!isAuthenticated()">
 							<a class="nav-link" th:href="@{/registro}" th:text="#{registro.label}">Registrar</a> </li>
+						<li class="nav-item">
+							<a class="nav-link active"
+								th:href="@{/veiculos/listar}"><span th:text="#{livro.listar.label}">Listar Veículos</span>
+							</a>
+						</li>
 
 						<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
