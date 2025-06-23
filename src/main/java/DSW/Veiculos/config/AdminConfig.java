@@ -28,9 +28,11 @@ public class AdminConfig implements ApplicationRunner {
             admin.setSenha(passwordEncoder.encode("admin123"));
             admin.setRole("ADMIN");
             admin.setNome("Administrador");
-            admin.setTelefone("(00) 00000-0000");
+            admin.setTelefone("00000000000");
             admin.setData_nasc(LocalDate.now());
             admin.setEnabled(true);
+            admin.setCPF("11111111111");
+            admin.setSexo("sexo");
             clienteDAO.save(admin);
             System.out.println("Usuário admin criado com sucesso!");
         }

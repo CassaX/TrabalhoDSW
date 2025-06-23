@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @SuppressWarnings("serial")
 @Entity
@@ -38,11 +39,10 @@ public class Cliente extends AbstractEntity<Long> {
 	@Column(nullable = false, length = 10)
 	private String sexo;
 
-	@NotBlank
+	@NotNull (message = "Data de nascimento é obrigatória") 
 	@Column(nullable = false, length = 10)
 	private LocalDate data_nasc;
 
-	@NotBlank
 	@Column(nullable = false, length = 10)
 	private String role;
 
