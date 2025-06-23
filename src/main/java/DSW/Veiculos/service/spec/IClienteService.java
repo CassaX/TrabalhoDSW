@@ -1,6 +1,5 @@
 package DSW.Veiculos.service.spec;
 
-
 import java.util.List;
 
 import DSW.Veiculos.domain.Cliente;
@@ -17,5 +16,5 @@ public interface IClienteService {
 
 	Cliente buscarPorEmail(String email);
 
-    void editar(Cliente cliente, String novoPassword);
+	void editar(Cliente cliente, String novoPassword);
 }

@@ -1,4 +1,5 @@
 package DSW.Veiculos.DAO;
+
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -6,7 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import DSW.Veiculos.domain.Cliente;
 import DSW.Veiculos.domain.Loja;
 import DSW.Veiculos.domain.Proposta;
-import DSW.Veiculos.domain.Veiculo; 
+import DSW.Veiculos.domain.Veiculo;
+
 @SuppressWarnings("unchecked")
 public interface IPropostaDAO extends CrudRepository<Proposta, Long> {
 
