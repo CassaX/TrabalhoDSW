@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="sidebar" class="sidebar bg-dark text-white">
+    <div class="sidebar-header p-3">
+        <h5 th:text="#{menu.navigation}">Navegação</h5>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a class="nav-link" th:href="@{/admin}" th:text="#{menu.dashboard}">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a class="nav-link" th:href="@{/admin/clientes}" th:text="#{menu.clients}">
+                <i class="bi bi-people me-2"></i> Clientes
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a class="nav-link" th:href="@{/admin/lojas}" th:text="#{menu.stores}">
+                <i class="bi bi-shop me-2"></i> Lojas
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('LOJA')">
+            <a class="nav-link" th:href="@{/veiculos/meus-veiculos}" th:text="#{menu.my_vehicles}">
+                <i class="bi bi-car-front me-2"></i> Meus Veículos
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('LOJA')">
+            <a class="nav-link" th:href="@{/propostas/loja}" th:text="#{menu.proposals}">
+                <i class="bi bi-file-earmark-text me-2"></i> Propostas
+            </a>
+        </li>
+    </ul>
+</div>

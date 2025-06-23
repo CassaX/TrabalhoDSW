@@ -19,14 +19,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/registro").permitAll()
+                 .authorizeHttpRequests(auth -> auth
+                // Rotas públicas
+                .requestMatchers("/", "/home", "/login", "/registro", "/registro/**").permitAll()
+                .requestMatchers("/veiculos", "/veiculos/listar").permitAll()
+                
+                // Admin
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                
+                // Cliente
                 .requestMatchers("/cliente/**").hasRole("CLIENTE")
+                .requestMatchers("/propostas/criar/**", "/propostas/minhas-propostas").hasRole("CLIENTE")
+                
+                // Loja
                 .requestMatchers("/loja/**").hasRole("LOJA")
-                .requestMatchers("/veiculos/listar", "/veiculos/detalhes/**").permitAll()
-                .requestMatchers("/veiculos/**").hasRole("LOJA")
-                .requestMatchers("/propostas/**").hasAnyRole("CLIENTE", "LOJA")
-                .anyRequest().permitAll()
+                .requestMatchers("/veiculos/cadastrar", "/veiculos/meus-veiculos", "/veiculos/editar/**").hasRole("LOJA")
+                .requestMatchers("/propostas/loja", "/propostas/editar-status/**").hasRole("LOJA")
+                
+                // Rotas compartilhadas
+                .requestMatchers("/propostas/salvar").hasAnyRole("CLIENTE", "LOJA")
+                
+                .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
@@ -40,7 +53,7 @@ public class SecurityConfig {
             )
             .userDetailsService(usuarioDetailsService);
 
-        return http.build();
+    return http.build();
     }
 
     @Bean

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import DSW.Veiculos.DAO.IPropostaDAO;
 import DSW.Veiculos.domain.Cliente;
+import DSW.Veiculos.domain.Loja;
 import DSW.Veiculos.domain.Proposta;
 import DSW.Veiculos.service.spec.IPropostaService;
 
@@ -35,4 +36,23 @@ public class PropostaService implements IPropostaService {
 	public List<Proposta> findByCliente(Cliente c) {
         return dao.findByCliente(c);
     }
+
+	@Transactional(readOnly = true)
+    @Override
+    public List<Proposta> buscarPorLoja(Loja loja) {
+        return dao.findByVeiculoLoja(loja);
+    }
+
+	@Transactional
+    @Override
+    public void editar(Proposta propostaExistente) {
+        // Verifica se a proposta existe
+        if (!dao.existsById(propostaExistente.getId())) {
+            throw new IllegalArgumentException("Proposta não encontrada com ID: " + propostaExistente.getId());
+        }
+        
+        // Atualiza a proposta no banco de dados
+        dao.save(propostaExistente);
+    }
+	
 }

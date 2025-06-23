@@ -35,7 +35,7 @@ public class VeiculoController {
     public String cadastrar(Veiculo veiculo, ModelMap model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        Loja loja = lojaService.buscarPorEmail(email);
+        Loja loja = lojaService.buscarPorEmail(email); 
         model.addAttribute("loja", loja);
         return "veiculo/cadastro";
     }

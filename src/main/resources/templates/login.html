@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(#{app.title(#{menu.login})})}"></head>
+<body class="bg-light">
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="card-title text-center mb-4" th:text="#{menu.login}">Entrar</h2>
+                        
+                        <div th:if="${param.error}" class="alert alert-danger" th:text="#{login.error}">
+                            Email ou senha inválidos.
+                        </div>
+                        <div th:if="${param.logout}" class="alert alert-success" th:text="#{login.logout}">
+                            Você foi desconectado com sucesso.
+                        </div>
+                        
+                        <form th:action="@{/auth/login}" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label" th:text="#{login.email}">Email</label>
+                                <input type="email" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label" th:text="#{login.password}">Senha</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary" th:text="#{menu.login}">Entrar</button>
+                            </div>
+                            <div class="text-center">
+                                <span th:text="#{login.no_account}">Não tem uma conta?</span>
+                                <a th:href="@{/auth/registro}" th:text="#{login.register_link}">Cadastre-se</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

@@ -4,6 +4,7 @@ package DSW.Veiculos.service.spec;
 import java.util.List;
 
 import DSW.Veiculos.domain.Cliente;
+import DSW.Veiculos.domain.Loja;
 import DSW.Veiculos.domain.Proposta;
 
 public interface IPropostaService {
@@ -13,4 +14,9 @@ public interface IPropostaService {
 	List<Proposta> findByCliente(Cliente cliente);
 	
 	void salvar(Proposta loja);
+
+    Object buscarPorLoja(Loja loja);
+
+	void editar(Proposta propostaExistente);
+
 }

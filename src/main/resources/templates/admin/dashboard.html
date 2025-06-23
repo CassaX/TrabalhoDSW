@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<head>
+    <title>Painel Administrativo</title>
+</head>
+<body>
+    <section class="layout-content" layout:fragment="corpo">
+        <div class="container">
+            <h2 class="mb-4">Painel Administrativo</h2>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Gerenciar Clientes</h5>
+                            <p class="card-text">Cadastro, edição e remoção de clientes</p>
+                            <a th:href="@{/admin/clientes}" class="btn btn-primary">
+                                <i class="oi oi-people"></i> Acessar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Gerenciar Lojas</h5>
+                            <p class="card-text">Cadastro, edição e remoção de lojas</p>
+                            <a th:href="@{/admin/lojas}" class="btn btn-primary">
+                                <i class="oi oi-home"></i> Acessar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Relatórios</h5>
+                            <p class="card-text">Visualize relatórios do sistema</p>
+                            <a href="#" class="btn btn-secondary">
+                                <i class="oi oi-graph"></i> Em breve
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

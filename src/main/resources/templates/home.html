@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head th:replace="~{fragments/head :: head(#{app.title('Home')})}"></head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container my-5">
+        <div th:replace="~{fragments/alert :: alert('success', ${success})}" th:if="${success}"></div>
+        
+        <div class="hero-section text-center py-5 bg-light rounded-3 mb-5">
+            <h1 class="display-4 fw-bold mb-4" th:text="#{home.title}">Bem-vindo ao Veículos Online</h1>
+            <p class="lead col-md-8 mx-auto mb-4" th:text="#{home.subtitle}">Encontre o veículo perfeito para você ou venda o seu com facilidade.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a th:href="@{/veiculos/listar}" class="btn btn-primary btn-lg px-4 gap-3" th:text="#{home.buy_button}">Comprar Veículo</a>
+                <a th:href="@{/auth/registro}" class="btn btn-outline-secondary btn-lg px-4" th:text="#{home.register_button}">Cadastre-se</a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-search-heart feature-icon text-primary mb-3"></i>
+                        <h3 th:text="#{home.feature1.title}">Encontre Seu Veículo</h3>
+                        <p class="mb-0" th:text="#{home.feature1.text}">Busque entre diversos modelos e encontre o que melhor atende suas necessidades.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

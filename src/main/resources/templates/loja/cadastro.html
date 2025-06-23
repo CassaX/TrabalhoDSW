@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(#{app.title(#{store.form_title})})}">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container my-5">
+        <div th:replace="~{fragments/alert :: alert('success', ${success})}" th:if="${success}"></div>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 th:text="${loja.id} ? #{store.edit_title} : #{store.form_title}">
+                <span th:if="${loja.id}" th:text="#{store.edit_title}">Editar Loja</span>
+                <span th:if="!${loja.id}" th:text="#{store.form_title}">Cadastrar Loja</span>
+            </h2>
+            <a th:href="@{/loja/listar}" class="btn btn-outline-secondary" th:text="#{form.back}">Voltar</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/loja/salvar}" th:object="${loja}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nome" class="form-label" th:text="#{store.name}">Nome</label>
+                            <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" 
+                                 th:errors="*{nome}"></div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="email" class="form-label" th:text="#{store.email}">Email</label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" 
+                                 th:errors="*{email}"></div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="cnpj" class="form-label" th:text="#{store.cnpj}">CNPJ</label>
+                            <input type="text" class="form-control" id="cnpj" th:field="*{cnpj}" 
+                                   th:attr="data-mask='00.000.000/0000-00'" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('cnpj')}" 
+                                 th:errors="*{cnpj}"></div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="descricao" class="form-label" th:text="#{store.description}">Descrição</label>
+                            <textarea class="form-control" id="descricao" th:field="*{descricao}" rows="3"></textarea>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('descricao')}" 
+                                 th:errors="*{descricao}"></div>
+                        </div>
+                        
+                        <div class="col-md-6" th:unless="${loja.id}">
+                            <label for="senha" class="form-label" th:text="#{store.password}">Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha" required>
+                        </div>
+                        
+                        <div class="col-md-6" th:unless="${loja.id}">
+                            <label for="confirmarSenha" class="form-label" th:text="#{store.confirm_password}">Confirmar Senha</label>
+                            <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary" th:text="#{form.save}">Salvar</button>
+                        <a th:href="@{/loja/listar}" class="btn btn-outline-secondary ms-2" th:text="#{form.cancel}">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+    
+    <script th:src="@{/webjars/jquery-mask-plugin/1.14.16/dist/jquery.mask.min.js}"></script>
+    <script>
+    $(document).ready(function(){
+        $('#cnpj').mask('00.000.000/0000-00');
+    });
+    </script>
+</body>
+</html>

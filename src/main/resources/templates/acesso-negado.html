@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}">
+    <title th:text="#{access_denied.title}">Acesso Negado - Veículos Online</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: navbar}"></div>
+
+    <div class="access-denied-container">
+        <h1 class="text-danger mb-4" th:text="#{access_denied.title}">Acesso Negado</h1>
+        <p class="lead mb-4" th:text="#{access_denied.message}">
+            Você não tem permissão para acessar esta página.
+        </p>
+        <a th:href="@{/home}" class="btn btn-primary" th:text="#{access_denied.home_button}">
+            Voltar para a página inicial
+        </a>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

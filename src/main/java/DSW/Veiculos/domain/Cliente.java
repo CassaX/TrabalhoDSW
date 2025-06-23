@@ -1,6 +1,6 @@
 package DSW.Veiculos.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import DSW.Veiculos.validation.UniqueCPF;
 import jakarta.persistence.Column;
@@ -40,7 +40,7 @@ public class Cliente extends AbstractEntity<Long> {
 
 	@NotBlank
 	@Column(nullable = false, length = 10)
-	private Date data_nasc;
+	private LocalDate data_nasc;
 
 	@NotBlank
 	@Column(nullable = false, length = 10)
@@ -97,11 +97,11 @@ public class Cliente extends AbstractEntity<Long> {
 		this.sexo = sexo;
 	}
 
-	public Date getData_nasc() {
+	public LocalDate getData_nasc() {
 		return data_nasc;
 	}
 
-	public void setData_nasc(Date data_nasc) {
+	public void setData_nasc(LocalDate data_nasc) {
 		this.data_nasc = data_nasc;
 	}
 

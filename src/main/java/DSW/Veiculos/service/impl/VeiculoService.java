@@ -1,7 +1,6 @@
 package DSW.Veiculos.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public  class VeiculoService implements IVeiculoService{
     @Transactional(readOnly = true)
     @Override
     public Veiculo buscarPorId(Long id) {
-        return veiculoDAO.findById(id.longValue());
+        return veiculoDAO.findById(id.longValue()).orElse(null);
     }
 
     @Override

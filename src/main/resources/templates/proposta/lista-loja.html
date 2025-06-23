@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(#{app.title(#{proposal.proposals_received})})}">
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container my-5">
+        <div th:replace="~{fragments/alert :: alert('success', ${success})}" th:if="${success}"></div>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 th:text="#{proposal.proposals_received}">Propostas Recebidas</h2>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th th:text="#{client.name}">Cliente</th>
+                                <th th:text="#{vehicle.model}">Veículo</th>
+                                <th th:text="#{proposal.value}">Valor</th>
+                                <th th:text="#{proposal.date}">Data</th>
+                                <th th:text="#{proposal.status}">Status</th>
+                                <th th:text="#{form.actions}">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="proposta : ${propostas}">
+                                <td th:text="${proposta.cliente.nome}">Nome do Cliente</td>
+                                <td th:text="${proposta.veiculo.modelo}">Modelo do Veículo</td>
+                                <td th:text="${#numbers.formatCurrency(proposta.valor)}">R$ 00.000,00</td>
+                                <td th:text="${proposta.data}">00/00/0000</td>
+                                <td>
+                                    <span th:switch="${proposta.status}" class="badge">
+                                        <span th:case="'ABERTO'" class="bg-warning" th:text="#{proposal.status_open}">ABERTO</span>
+                                        <span th:case="'ACEITO'" class="bg-success" th:text="#{proposal.status_accepted}">ACEITO</span>
+                                        <span th:case="'NÃO ACEITO'" class="bg-danger" th:text="#{proposal.status_rejected}">NÃO ACEITO</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a th:href="@{/propostas/editar-status/{id}(id=${proposta.id})}" 
+                                           class="btn btn-sm btn-outline-primary" th:text="#{proposal.edit_status}">
+                                            Alterar Status
+                                        </a>
+                                        <a th:href="@{/veiculos/detalhes/{id}(id=${proposta.veiculo.id})}" 
+                                           class="btn btn-sm btn-outline-secondary" th:text="#{proposal.view_vehicle}">
+                                            Ver Veículo
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>
