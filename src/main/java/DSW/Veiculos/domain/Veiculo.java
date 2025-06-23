@@ -1,119 +1,136 @@
 package DSW.Veiculos.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Veiculo")
 public class Veiculo extends AbstractEntity<Long> {
 
+    @Column(nullable = false, unique = true, length = 7)
+    private String placa;
 
-	@Column(nullable = false, unique = true, length = 7)
-	private String placa;
+    @Column(nullable = false, unique = true, length = 50)
+    private String modelo;
 
-	@Column(nullable = false, unique = true, length = 50)
-	private String modelo;
+    @Column(nullable = false, unique = true, length = 50)
+    private String chassi;
 
-	@Column(nullable = false, unique = true, length = 50)
-	private String chassi;
+    @Column(nullable = false, unique = true, length = 4)
+    private String ano;
 
-	@Column(nullable = false, unique = true, length = 4)
-	private String ano;
+    @Column(nullable = false, unique = true, length = 6)
+    private int quilometragem;
 
-	@Column(nullable = false, unique = true, length = 6)
-	private int quilometragem;
+    @Column(nullable = false, unique = true, length = 300)
+    private String descricao;
 
-	@Column(nullable = false, unique = true, length = 300)
-	private String descricao;
+    @Column(nullable = false, unique = true, length = 8)
+    private BigDecimal valor;
 
-	@Column(nullable = false, unique = true, length = 8)
-	private BigDecimal valor;
+    @Column(nullable = false, unique = true, length = 10)
+    private String fotos[] = new String[10];
 
-	@Column(nullable = false, unique = true, length = 10)
-	private String fotos[] = new String[10];
+    @ManyToOne
+    @JoinColumn(name = "loja_id")
+    private Loja loja;
 
-	@ManyToOne
-	@JoinColumn(name = "loja_id")
-	private Loja loja;
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Imagem> imagens = new ArrayList<>();
 
+    // Getters e Setters
 
-	public String getPlaca() {
-		return placa;
-	}
+    public String getPlaca() {
+        return placa;
+    }
 
-	public void setPlaca(String placa) {
-		this.placa = placa;
-	}
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
 
-	public String getModelo() {
-		return modelo;
-	}
+    public String getModelo() {
+        return modelo;
+    }
 
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
-	}
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
 
-	public String getChassi() {
-		return chassi;
-	}
+    public String getChassi() {
+        return chassi;
+    }
 
-	public void setChassi(String chassi) {
-		this.chassi = chassi;
-	}
+    public void setChassi(String chassi) {
+        this.chassi = chassi;
+    }
 
-	public String getAno() {
-		return ano;
-	}
+    public String getAno() {
+        return ano;
+    }
 
-	public void setAno(String ano) {
-		this.ano = ano;
-	}
+    public void setAno(String ano) {
+        this.ano = ano;
+    }
 
-	public int getQuilometragem() {
-		return quilometragem;
-	}
+    public int getQuilometragem() {
+        return quilometragem;
+    }
 
-	public void setQuilometragem(int quilometragem) {
-		this.quilometragem = quilometragem;
-	}
+    public void setQuilometragem(int quilometragem) {
+        this.quilometragem = quilometragem;
+    }
 
-	public String getDescricao() {
-		return descricao;
-	}
+    public String getDescricao() {
+        return descricao;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public BigDecimal getValor() {
-		return valor;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 
-	public String[] getFotos() {
-		return fotos;
-	}
+    public String[] getFotos() {
+        return fotos;
+    }
 
-	public void setFotos(String[] fotos) {
-		this.fotos = fotos;
-	}
+    public void setFotos(String[] fotos) {
+        this.fotos = fotos;
+    }
 
-	public Loja getLoja() {
-		return loja;
-	}
+    public Loja getLoja() {
+        return loja;
+    }
 
-	public void setLoja(Loja loja) {
-		this.loja = loja;
-	}
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
 
-	
+    public List<Imagem> getImagens() {
+        return imagens;
+    }
+
+    public void setImagens(List<Imagem> imagens) {
+        this.imagens = imagens;
+    }
+
+    public void addImagem(Imagem img) {
+        img.setVeiculo(this);
+        imagens.add(img);
+    }
+
+    public void removeImagem(Imagem img) {
+        imagens.remove(img);
+        img.setVeiculo(null);
+    }
 }
