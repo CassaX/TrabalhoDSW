@@ -1,85 +1,185 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}">
-    <title th:text="#{register.title}">Registro - Veículos Online</title>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout2}">
+<head>
+    <title th:text="#{registro.label}"></title>
 </head>
 <body>
-    <div th:replace="~{fragments/header :: navbar}"></div>
+<div layout:fragment="content" th:remove="tag">
+    <br/><br/><br/>
+    <div class="container">
+        <h1 th:text="#{registro.label}">Registrar</h1>
 
-    <div class="register-container">
-        <div class="card">
-            <div class="card-header text-center" th:text="#{register.title}">Cadastre-se</div>
-            <div class="card-body">
-                <ul class="nav nav-tabs register-tabs mb-4" id="registerTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="client-tab" data-bs-toggle="tab" 
-                                data-bs-target="#client" type="button" role="tab" 
-                                th:text="#{register.client_tab}">Cliente</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="store-tab" data-bs-toggle="tab" 
-                                data-bs-target="#store" type="button" role="tab" 
-                                th:text="#{register.store_tab}">Loja</button>
-                    </li>
-                </ul>
-                
-                <div class="tab-content" id="registerTabContent">
-                    <!-- Formulário de Cliente -->
-                    <div class="tab-pane fade show active" id="client" role="tabpanel">
-                        <form th:action="@{/registro/cliente}" method="post" th:object="${cliente}">
-                            <!-- Campos do cliente -->
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label th:text="#{register.name}">Nome</label>
-                                    <input type="text" class="form-control" th:field="*{nome}" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label th:text="#{register.email}">Email</label>
-                                    <input type="email" class="form-control" th:field="*{email}" required>
-                                </div>
-                            </div>
-                            
-                            <!-- Outros campos do cliente -->
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary" th:text="#{register.button}">Cadastrar</button>
-                            </div>
-                        </form>
+        <ul class="nav nav-tabs" id="registroTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="cliente-tab" data-toggle="tab" href="#cliente" role="tab"
+                   aria-controls="cliente" aria-selected="true">Registrar como Cliente</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="loja-tab" data-toggle="tab" href="#loja" role="tab"
+                   aria-controls="loja" aria-selected="false">Registrar como Loja</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="registroTabContent">
+            <div class="tab-pane fade show active" id="cliente" role="tabpanel" aria-labelledby="cliente-tab">
+                <h3 class="mt-4">Cliente</h3>
+                <form th:action="@{/registro/cliente}" th:object="${cliente}" method="post" class="form-horizontal">
+                    <div th:replace="~{fragments/alert}"></div> <div th:replace="~{fragments/validacao (boundObject=${cliente})}"></div> <div class="form-group row">
+                        <label for="emailCliente" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="emailCliente" th:field="*{email}" placeholder="Email"
+                                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
                     </div>
-                    
-                    <!-- Formulário de Loja -->
-                    <div class="tab-pane fade" id="store" role="tabpanel">
-                        <form th:action="@{/registro/loja}" method="post" th:object="${loja}">
-                            <!-- Campos da loja -->
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label th:text="#{register.store_name}">Nome da Loja</label>
-                                    <input type="text" class="form-control" th:field="*{nome}" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label th:text="#{register.email}">Email</label>
-                                    <input type="email" class="form-control" th:field="*{email}" required>
-                                </div>
-                            </div>
-                            
-                            <!-- Outros campos da loja -->
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary" th:text="#{register.button}">Cadastrar</button>
-                            </div>
-                        </form>
+                    <div class="form-group row">
+                        <label for="senhaCliente" class="col-sm-2 col-form-label" th:text="#{usuario.password.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="senhaCliente" th:field="*{senha}"
+                                   th:placeholder="#{usuario.password.label}"
+                                   th:classappend="${#fields.hasErrors('senha')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="mt-3 text-center">
-                    <span th:text="#{register.have_account}">Já tem uma conta?</span>
-                    <a th:href="@{/login}" th:text="#{register.login_link}">Faça login</a>
-                </div>
+                    <div class="form-group row">
+                        <label for="nomeCliente" class="col-sm-2 col-form-label" th:text="#{usuario.name.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nomeCliente" th:field="*{nome}"
+                                   th:placeholder="#{usuario.name.label}"
+                                   th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="cpfCliente" class="col-sm-2 col-form-label" th:text="#{usuario.CPF.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="cpfCliente" th:field="*{CPF}"
+                                   data-mask="000.000.000-00" th:placeholder="#{usuario.CPF.label}"
+                                   th:classappend="${#fields.hasErrors('CPF')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('CPF')}" th:errors="*{CPF}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="telefoneCliente" class="col-sm-2 col-form-label" th:text="#{cliente.telefone.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="telefoneCliente" th:field="*{telefone}"
+                                   data-mask="(00)00000-0000" th:placeholder="#{cliente.telefone.label}"
+                                   th:classappend="${#fields.hasErrors('telefone')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="sexoCliente" class="col-sm-2 col-form-label" th:text="#{cliente.sexo.label}"></label>
+                        <div class="col-sm-10">
+                            <select id="sexoCliente" class="form-control" th:field="*{sexo}"
+                                    th:classappend="${#fields.hasErrors('sexo')} ? 'is-invalid'">
+                                <option value="" th:text="#{select.label}">Selecione...</option>
+                                <option value="MASCULINO">Masculino</option>
+                                <option value="FEMININO">Feminino</option>
+                                <option value="OUTRO">Outro</option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="dataNascimentoCliente" class="col-sm-2 col-form-label" th:text="#{cliente.dataNascimento.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="dataNascimentoCliente" th:field="*{dataNascimento}"
+                                   data-mask="00/00/0000" th:placeholder="#{cliente.dataNascimento.label}"
+                                   th:classappend="${#fields.hasErrors('dataNascimento')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="loja" role="tabpanel" aria-labelledby="loja-tab">
+                <h3 class="mt-4">Loja</h3>
+                <form th:action="@{/registro/loja}" th:object="${loja}" method="post" class="form-horizontal">
+                    <div th:replace="~{fragments/alert}"></div> <div th:replace="~{fragments/validacao (boundObject=${loja})}"></div> <div class="form-group row">
+                        <label for="emailLoja" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="emailLoja" th:field="*{email}" placeholder="Email"
+                                   th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="senhaLoja" class="col-sm-2 col-form-label" th:text="#{usuario.password.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="senhaLoja" th:field="*{password}"
+                                   th:placeholder="#{usuario.password.label}"
+                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="nomeLoja" class="col-sm-2 col-form-label" th:text="#{editora.nome.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nomeLoja" th:field="*{nome}"
+                                   th:placeholder="#{editora.nome.label}"
+                                   th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="cnpjLoja" class="col-sm-2 col-form-label" th:text="#{editora.cnpj.label}"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="cnpjLoja" th:field="*{CNPJ}"
+                                   data-mask="00.000.000/0000-00" th:placeholder="#{editora.cnpj.label}"
+                                   th:classappend="${#fields.hasErrors('CNPJ')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('CNPJ')}" th:errors="*{CNPJ}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="descricaoLoja" class="col-sm-2 col-form-label" th:text="#{loja.descricao.label}"></label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="descricaoLoja" th:field="*{descricao}"
+                                      th:placeholder="#{loja.descricao.label}" rows="3"
+                                      th:classappend="${#fields.hasErrors('descricao')} ? 'is-invalid'"></textarea>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Registrar Loja</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function() {
+            // Ativa as abas do Bootstrap
+            $('.nav-tabs a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+            // Código para manter a aba ativa após um erro de validação
+            var activeTab = /*[[${activeTab}]]*/ 'cliente'; // Define 'cliente' como padrão
 
-    <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+            if (activeTab === 'loja') {
+                $('#loja-tab').tab('show');
+            } else {
+                $('#cliente-tab').tab('show'); // Garante que a aba cliente é a padrão
+            }
+            
+            // Reaplicar máscaras de input quando o DOM estiver pronto
+            $('#cpfCliente').mask('000.000.000-00');
+            $('#telefoneCliente').mask('(00)00000-0000');
+            $('#dataNascimentoCliente').mask('00/00/0000');
+            $('#cnpjLoja').mask('00.000.000/0000-00');
+        });
+        /*]]>*/
+    </script>
+</div>
 </body>
 </html>

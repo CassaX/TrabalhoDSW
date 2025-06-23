@@ -1,5 +1,7 @@
 package DSW.Veiculos.service.impl;
 
+import java.time.format.DateTimeFormatter; // Importe esta anotação
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,28 @@ public class NotificacaoPropostaService {
     public void notificarProposta(Proposta proposta, boolean notificarCliente) {
         try {
             String assunto = "Atualização da proposta para o carro " + proposta.getVeiculo().getModelo();
+
             String corpo = "Olá " + (notificarCliente ? proposta.getCliente().getNome() : proposta.getVeiculo().getLoja().getNome()) + ",\n\n" +
-                    "A proposta para o carro \"" + proposta.getVeiculo().getModelo() + "\" no valor de R$ " +
-                    String.format("%.2f", proposta.getValor()) + " foi atualizada.\n\n" +
-                    "Status atual: " + proposta.getStatus() + "\n\n" +
-                    "Atenciosamente,\nEquipe de Propostas";
+                    "Sua proposta para o carro \"" + proposta.getVeiculo().getModelo() + "\" (valor proposto: R$ " +
+                    String.format("%.2f", proposta.getValor()) + ") foi atualizada para o status: " + proposta.getStatus() + ".\n\n";
+
+            if ("NÃO ACEITO".equals(proposta.getStatus())) {
+                if (proposta.getContrapropostaValor() != null) {
+                    corpo += "Nossa contraproposta é de R$ " + String.format("%.2f", proposta.getContrapropostaValor()) + ".\n";
+                }
+                if (proposta.getContrapropostaCondicoes() != null && !proposta.getContrapropostaCondicoes().isEmpty()) {
+                    corpo += "Condições da contraproposta: " + proposta.getContrapropostaCondicoes() + ".\n";
+                }
+            } else if ("ACEITO".equals(proposta.getStatus())) {
+                if (proposta.getHorarioReuniao() != null) {
+                    corpo += "Gostaríamos de agendar uma reunião para " + proposta.getHorarioReuniao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm")) + ".\n";
+                }
+                if (proposta.getLinkReuniao() != null && !proposta.getLinkReuniao().isEmpty()) {
+                    corpo += "Link da reunião: " + proposta.getLinkReuniao() + ".\n";
+                }
+            }
+
+            corpo += "\nAtenciosamente,\nEquipe de Propostas";
 
             InternetAddress from = new InternetAddress("trabalhodswgrupo@gmail.com");
             InternetAddress to = new InternetAddress(

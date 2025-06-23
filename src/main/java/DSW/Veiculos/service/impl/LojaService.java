@@ -55,22 +55,33 @@ public class LojaService implements ILojaService {
     }
 
     @Override
-    public Loja editar(Loja loja) {
+    public Loja editar(Loja loja, String novaSenha) {
         Loja lojaExistente = buscarPorId(loja.getId());
-        
+
+        if (lojaExistente == null) {
+            throw new IllegalArgumentException("Loja não encontrada para edição.");
+        }
+
         if (!lojaExistente.getCNPJ().equals(loja.getCNPJ())) {
             throw new IllegalArgumentException("CNPJ não pode ser alterado");
         }
-        
+
         if (!lojaExistente.getEmail().equals(loja.getEmail())) {
             Loja lojaEmail = lojaDAO.findByEmail(loja.getEmail());
-        if (lojaEmail != null) {
-            throw new IllegalArgumentException("Email já em Uso");
+            if (lojaEmail != null && !lojaEmail.getId().equals(loja.getId())) { 
+                throw new IllegalArgumentException("Email já em Uso");
+            }
         }
+
+        lojaExistente.setNome(loja.getNome());
+        lojaExistente.setEmail(loja.getEmail());
+
+        // Lógica para atualização da senha
+        if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+            lojaExistente.setPassword(passwordEncoder.encode(novaSenha));
         }
-        
-        loja.setPassword(lojaExistente.getPassword());
-        return lojaDAO.save(loja);
+
+        return lojaDAO.save(lojaExistente); // Salvar as alterações
     }
 
     @Override

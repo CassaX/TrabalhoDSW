@@ -29,7 +29,7 @@ public class AdminConfig implements ApplicationRunner {
             admin.setRole("ADMIN");
             admin.setNome("Administrador");
             admin.setTelefone("00000000000");
-            admin.setData_nasc(LocalDate.now());
+            admin.setDataNascimento(LocalDate.now());
             admin.setEnabled(true);
             admin.setCPF("11111111111");
             admin.setSexo("sexo");

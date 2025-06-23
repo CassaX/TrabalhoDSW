@@ -41,7 +41,7 @@ public class Cliente extends AbstractEntity<Long> {
 
 	@NotNull (message = "Data de nascimento é obrigatória") 
 	@Column(nullable = false, length = 10)
-	private LocalDate data_nasc;
+	private LocalDate dataNascimento;
 
 	@Column(nullable = false, length = 10)
 	private String role;
@@ -97,13 +97,6 @@ public class Cliente extends AbstractEntity<Long> {
 		this.sexo = sexo;
 	}
 
-	public LocalDate getData_nasc() {
-		return data_nasc;
-	}
-
-	public void setData_nasc(LocalDate data_nasc) {
-		this.data_nasc = data_nasc;
-	}
 
 	public String getRole() {
 		return role;
@@ -119,5 +112,13 @@ public class Cliente extends AbstractEntity<Long> {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 }

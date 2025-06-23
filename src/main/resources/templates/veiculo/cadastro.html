@@ -1,122 +1,107 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(#{app.title(#{vehicle.form_title})})}">
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${veiculo.id == null} ? #{veiculo.cadastrar.label} : #{link.editar.label} + ' ' + #{sidebar.titulo.livro}"></title>
 </head>
 <body>
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
+<section class="layout-content" layout:fragment="corpo">
+    <div class="container">
+        <h2 th:text="${veiculo.id == null} ? #{veiculo.cadastrar.label} : #{link.editar.label} + ' ' + #{sidebar.titulo.livro}"></h2>
 
-    <main class="container my-5">
-        <div th:replace="~{fragments/alert :: alert('success', ${success})}" th:if="${success}"></div>
-        
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 th:text="${veiculo.id} ? #{vehicle.edit_title} : #{vehicle.form_title}">
-                Cadastrar Veículo
-            </h2>
-            <a th:href="@{/veiculos/meus-veiculos}" class="btn btn-outline-secondary" th:text="#{form.back}">Voltar</a>
-        </div>
+        <div th:replace="~{fragments/alert}"></div>
+        <div th:replace="~{fragments/validacao}"></div>
 
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <form th:action="@{/veiculos/salvar}" th:object="${veiculo}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" th:field="*{id}">
-                    <input type="hidden" th:field="*{loja.id}">
-                    
-                    <div class="row g-3">
-                        <!-- Dados Básicos -->
-                        <div class="col-md-6">
-                            <label for="placa" class="form-label" th:text="#{vehicle.plate}">Placa</label>
-                            <input type="text" class="form-control" id="placa" th:field="*{placa}" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('placa')}" 
-                                 th:errors="*{placa}"></div>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <label for="modelo" class="form-label" th:text="#{vehicle.model}">Modelo</label>
-                            <input type="text" class="form-control" id="modelo" th:field="*{modelo}" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('modelo')}" 
-                                 th:errors="*{modelo}"></div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <label for="ano" class="form-label" th:text="#{vehicle.year}">Ano</label>
-                            <input type="number" class="form-control" id="ano" th:field="*{ano}" min="1900" max="2023" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('ano')}" 
-                                 th:errors="*{ano}"></div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <label for="quilometragem" class="form-label" th:text="#{vehicle.mileage}">Quilometragem</label>
-                            <input type="number" class="form-control" id="quilometragem" th:field="*{quilometragem}" min="0" required>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('quilometragem')}" 
-                                 th:errors="*{quilometragem}"></div>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <label for="valor" class="form-label" th:text="#{vehicle.value}">Valor</label>
-                            <div class="input-group">
-                                <span class="input-group-text">R$</span>
-                                <input type="number" class="form-control" id="valor" th:field="*{valor}" step="0.01" min="0" required>
-                            </div>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" 
-                                 th:errors="*{valor}"></div>
-                        </div>
-                        
-                        <div class="col-12">
-                            <label for="descricao" class="form-label" th:text="#{vehicle.description}">Descrição</label>
-                            <textarea class="form-control" id="descricao" th:field="*{descricao}" rows="3" required></textarea>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('descricao')}" 
-                                 th:errors="*{descricao}"></div>
-                        </div>
-                        
-                        <!-- Upload de Fotos -->
-                        <div class="col-12">
-                            <label for="fotos" class="form-label" th:text="#{vehicle.photos}">Fotos (Máximo 10)</label>
-                            <input type="file" class="form-control" id="fotos" name="fotos" multiple accept="image/*">
-                            <div class="form-text" th:text="#{vehicle.photos_hint}">Selecione até 10 imagens do veículo</div>
-                        </div>
-                        
-                        <!-- Pré-visualização das fotos existentes -->
-                        <div class="col-12" th:if="${veiculo.fotos != null and !veiculo.fotos.empty}">
-                            <h5 class="mt-3" th:text="#{vehicle.current_photos}">Fotos Atuais</h5>
-                            <div class="vehicle-images">
-                                <div th:each="foto, iterStat : ${veiculo.fotos}" class="image-thumbnail">
-                                    <img th:src="@{'/uploads/' + ${foto}}" class="img-thumbnail" style="height: 120px;">
-                                    <button type="button" class="btn btn-sm btn-danger remove-image" 
-                                            th:attr="data-index=${iterStat.index}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary" th:text="#{form.save}">Salvar</button>
-                        <a th:href="@{/veiculos/meus-veiculos}" class="btn btn-outline-secondary ms-2" th:text="#{form.cancel}">Cancelar</a>
-                    </div>
-                </form>
+        <form th:action="${veiculo.id == null} ? @{/veiculos/salvar} : @{/veiculos/editar}" th:object="${veiculo}" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{loja.id}" />
+
+            <div class="form-group row">
+                <label for="placa" class="col-sm-2 col-form-label" th:text="#{veiculo.placa.label}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="placa" th:field="*{placa}" th:placeholder="#{veiculo.placa.label}"
+                           th:classappend="${#fields.hasErrors('placa')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></div>
+                </div>
             </div>
-        </div>
-    </main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
-    <div th:replace="~{fragments/scripts :: scripts}"></div>
-    
-    <script>
-    // Script para remoção de imagens
-    document.querySelectorAll('.remove-image').forEach(button => {
-        button.addEventListener('click', function() {
-            const index = this.getAttribute('data-index');
-            // Adiciona um campo hidden para marcar a foto para remoção
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'fotosRemovidas';
-            input.value = index;
-            this.closest('form').appendChild(input);
-            // Remove a visualização da imagem
-            this.closest('.image-thumbnail').remove();
-        });
-    });
-    </script>
+            <div class="form-group row">
+                <label for="modelo" class="col-sm-2 col-form-label" th:text="#{veiculo.modelo.label}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="modelo" th:field="*{modelo}" th:placeholder="#{veiculo.modelo.label}"
+                           th:classappend="${#fields.hasErrors('modelo')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="chassi" class="col-sm-2 col-form-label" th:text="#{veiculo.chassi.label}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="chassi" th:field="*{chassi}" th:placeholder="#{veiculo.chassi.label}"
+                           th:classappend="${#fields.hasErrors('chassi')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('chassi')}" th:errors="*{chassi}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="ano" class="col-sm-2 col-form-label" th:text="#{veiculo.ano.label}"></label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="ano" th:field="*{ano}" th:placeholder="#{veiculo.ano.label}"
+                           th:classappend="${#fields.hasErrors('ano')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="quilometragem" class="col-sm-2 col-form-label" th:text="#{veiculo.quilometragem.label}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="quilometragem" th:field="*{quilometragem}" th:placeholder="#{veiculo.quilometragem.label}"
+                           data-mask="000.000" data-mask-reverse="true"
+                           th:classappend="${#fields.hasErrors('quilometragem')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('quilometragem')}" th:errors="*{quilometragem}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="descricao" class="col-sm-2 col-form-label" th:text="#{veiculo.descricao.label}"></label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="descricao" th:field="*{descricao}"
+                              th:placeholder="#{veiculo.descricao.label}" rows="5"
+                              th:classappend="${#fields.hasErrors('descricao')} ? 'is-invalid'"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="valor" class="col-sm-2 col-form-label" th:text="#{veiculo.valor.label}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="valor" th:field="*{valor}"
+                           data-mask="000.000.000.000,00" data-mask-reverse="true" th:placeholder="#{veiculo.valor.label}"
+                           th:classappend="${#fields.hasErrors('valor')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="photos" class="col-sm-2 col-form-label" th:text="#{veiculo.fotos.label} + ' (Max 10)'"></label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control-file" id="photos" name="photos" multiple accept="image/*">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}"></div>
+                    <div th:if="${veiculo.id != null and veiculo.fotosUrls != null}">
+                        <div th:each="photoUrl : ${veiculo.fotosUrls}" class="d-inline-block m-2">
+                            <img th:src="@{${photoUrl}}" style="width: 100px; height: 100px; object-fit: cover;" alt="Foto do Veículo"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-primary" th:text="#{button.salvar.label}">Salvar</button>
+                    <a th:href="@{/veiculos/meus-veiculos}" class="btn btn-secondary" th:text="#{button.cancelar.label}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 </body>
 </html>

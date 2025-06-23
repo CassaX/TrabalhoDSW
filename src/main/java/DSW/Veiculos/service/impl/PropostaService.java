@@ -11,6 +11,7 @@ import DSW.Veiculos.DAO.IPropostaDAO;
 import DSW.Veiculos.domain.Cliente;
 import DSW.Veiculos.domain.Loja;
 import DSW.Veiculos.domain.Proposta;
+import DSW.Veiculos.domain.Veiculo;
 import DSW.Veiculos.service.spec.IPropostaService;
 
 @Service
@@ -43,6 +44,12 @@ public class PropostaService implements IPropostaService {
         return dao.findByVeiculoLoja(loja);
     }
 
+	@Override
+    @Transactional(readOnly = true)
+    public List<Proposta> findByVeiculo(Veiculo veiculo) {
+        return dao.findByVeiculo(veiculo);
+    }
+
 	@Transactional
     @Override
     public void editar(Proposta propostaExistente) {
@@ -53,6 +60,13 @@ public class PropostaService implements IPropostaService {
         
         // Atualiza a proposta no banco de dados
         dao.save(propostaExistente);
+    }
+
+	@Override
+    @Transactional(readOnly = true)
+    public boolean existePropostaAbertaParaClienteEVeiculo(Cliente cliente, Veiculo veiculo) {
+        // Assume que "ABERTO" é o status de uma proposta em análise
+        return dao.countByClienteAndVeiculoAndStatus(cliente, veiculo, "ABERTO") > 0;
     }
 	
 }

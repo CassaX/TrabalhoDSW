@@ -17,5 +17,5 @@ public interface IClienteService {
 
 	Cliente buscarPorEmail(String email);
 
-    void editar(Cliente cliente);	
+    void editar(Cliente cliente, String novoPassword);
 }

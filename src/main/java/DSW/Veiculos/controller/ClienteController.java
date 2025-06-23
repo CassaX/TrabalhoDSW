@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import DSW.Veiculos.domain.Cliente;
@@ -52,22 +53,16 @@ public class ClienteController {
     }
     
     @PostMapping("/editar")
-	public String editar(@Valid Cliente cliente, String novoPassword, BindingResult result, RedirectAttributes attr) {
-		
-		if (result.hasErrors()) {
-			return "usuario/cadastro";
-		}
-
-		if (novoPassword != null && !novoPassword.trim().isEmpty()) {
-			cliente.setSenha(encoder.encode(novoPassword));
-		} else {
-			System.out.println("Senha não foi editada");
-		}
-		clienteService.salvar(cliente);
-		attr.addFlashAttribute("sucess", "usuario.edit.sucess");
-		return "redirect:/usuario/listar";
-	}
-    
+    public String editar(@Valid Cliente cliente, @RequestParam(value = "novoPassword", required = false) String novoPassword, BindingResult result, RedirectAttributes attr) {
+        if (result.hasErrors()) {
+            return "cliente/cadastro";
+        }
+        // A chamada para o serviço agora passará o novoPassword
+        clienteService.editar(cliente, novoPassword); // Modifique o service para aceitar novoPassword
+        attr.addFlashAttribute("sucess", "usuario.edit.sucess");
+        return "redirect:/cliente/listar";
+    }
+        
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
         clienteService.excluir(id);

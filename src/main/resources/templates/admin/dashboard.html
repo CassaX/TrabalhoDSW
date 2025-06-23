@@ -1,54 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout}">
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Painel Administrativo</title>
+    <title>Painel do Administrador</title>
 </head>
 <body>
-    <section class="layout-content" layout:fragment="corpo">
-        <div class="container">
-            <h2 class="mb-4">Painel Administrativo</h2>
-            
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Gerenciar Clientes</h5>
-                            <p class="card-text">Cadastro, edição e remoção de clientes</p>
-                            <a th:href="@{/admin/clientes}" class="btn btn-primary">
-                                <i class="oi oi-people"></i> Acessar
-                            </a>
-                        </div>
+<section class="layout-content" layout:fragment="corpo">
+    <div class="container">
+        <h2>Painel do Administrador</h2>
+
+        <div th:replace="~{fragments/alert}"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        Clientes Cadastrados
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${#lists.size(clientes)}"></h5>
+                        <p class="card-text">Número total de clientes no sistema.</p>
+                        <a th:href="@{/cliente/listar}" class="btn btn-primary">Ver Clientes</a>
                     </div>
                 </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Gerenciar Lojas</h5>
-                            <p class="card-text">Cadastro, edição e remoção de lojas</p>
-                            <a th:href="@{/admin/lojas}" class="btn btn-primary">
-                                <i class="oi oi-home"></i> Acessar
-                            </a>
-                        </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        Lojas Cadastradas
                     </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Relatórios</h5>
-                            <p class="card-text">Visualize relatórios do sistema</p>
-                            <a href="#" class="btn btn-secondary">
-                                <i class="oi oi-graph"></i> Em breve
-                            </a>
-                        </div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${#lists.size(lojas)}"></h5>
+                        <p class="card-text">Número total de lojas de veículos no sistema.</p>
+                        <a th:href="@{/loja/listar}" class="btn btn-primary">Ver Lojas</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
+    </div>
+</section>
 </body>
 </html>

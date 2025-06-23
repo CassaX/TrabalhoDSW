@@ -1,47 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(#{app.title(#{menu.login})})}"></head>
-<body class="bg-light">
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout2}">
+<head>
+<title th:text="#{login.message}"></title>
+</head>
+<body>
+	<div layout:fragment="content" th:remove="tag">
 
-    <main class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card shadow-sm">
-                    <div class="card-body p-4">
-                        <h2 class="card-title text-center mb-4" th:text="#{menu.login}">Entrar</h2>
-                        
-                        <div th:if="${param.error}" class="alert alert-danger" th:text="#{login.error}">
-                            Email ou senha inválidos.
+		<br /> <br /> <br />
+		<div>
+			<div class="col-md-6">
+				<h1 th:text="#{login.message}"></h1>
+				<form th:action="@{/login}" method="post">
+					<div th:if="${param.error}">
+						<div class="alert alert-danger">
+							<span th:text="#{login.error}"></span>
+						</div>
+					</div>
+                    <div th:if="${successLogin} != null">
+                        <div class="alert alert-success">
+                            <span th:text="${successLogin}"></span>
                         </div>
-                        <div th:if="${param.logout}" class="alert alert-success" th:text="#{login.logout}">
-                            Você foi desconectado com sucesso.
-                        </div>
-                        
-                        <form th:action="@{/auth/login}" method="post">
-                            <div class="mb-3">
-                                <label for="username" class="form-label" th:text="#{login.email}">Email</label>
-                                <input type="email" class="form-control" id="username" name="username" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label" th:text="#{login.password}">Senha</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-primary" th:text="#{menu.login}">Entrar</button>
-                            </div>
-                            <div class="text-center">
-                                <span th:text="#{login.no_account}">Não tem uma conta?</span>
-                                <a th:href="@{/auth/registro}" th:text="#{login.register_link}">Cadastre-se</a>
-                            </div>
-                        </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <div th:replace="~{fragments/footer :: footer}"></div>
-    <div th:replace="~{fragments/scripts :: scripts}"></div>
+					<div class="form-group">
+						<label for="username" th:text="#{login.username}"></label>: <input
+							type="text" id="username" name="username" class="form-control"
+							autofocus="autofocus" th:placeholder="#{login.username}">
+					</div>
+					<div class="form-group">
+						<label for="password" th:text="#{login.password}"></label>: <input
+							type="password" id="password" name="password"
+							class="form-control" th:placeholder="#{login.password}">
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-3 col-sm-offset-3">
+								<input type="submit" name="login-submit" id="login-submit"
+									class="form-control btn btn-info" th:value="#{login.button}">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

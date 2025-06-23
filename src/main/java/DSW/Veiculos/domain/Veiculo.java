@@ -7,6 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @SuppressWarnings("serial")
 @Entity
@@ -14,33 +18,43 @@ import jakarta.persistence.Table;
 public class Veiculo extends AbstractEntity<Long> {
 
 
-	@Column(nullable = false, unique = true, length = 7)
-	private String placa;
+	@NotBlank(message = "{NotBlank.veiculo.placa}")
+    @Column(nullable = false, unique = true, length = 7)
+    private String placa;
 
-	@Column(nullable = false, unique = true, length = 50)
-	private String modelo;
+    @NotBlank(message = "{NotBlank.veiculo.modelo}")
+    @Size(max = 50, message = "{Size.veiculo.modelo}")
+    @Column(nullable = false, unique = false, length = 50)
+    private String modelo;
 
-	@Column(nullable = false, unique = true, length = 50)
-	private String chassi;
+    @NotBlank(message = "{NotBlank.veiculo.chassi}")
+    @Size(max = 50, message = "{Size.veiculo.chassi}")
+    @Column(nullable = false, unique = true, length = 50)
+    private String chassi;
 
-	@Column(nullable = false, unique = true, length = 4)
-	private String ano;
+    @NotBlank(message = "{NotBlank.veiculo.ano}")
+    @Size(min = 4, max = 4, message = "{Size.veiculo.ano}") // Assumindo ano como String "YYYY"
+    private String ano;
 
-	@Column(nullable = false, unique = true, length = 6)
-	private int quilometragem;
+    @NotNull(message = "{NotNull.veiculo.quilometragem}")
+    @Min(value = 0, message = "{Min.veiculo.quilometragem}")
+    @Column(nullable = false)
+    private int quilometragem;
 
-	@Column(nullable = false, unique = true, length = 300)
-	private String descricao;
+    @NotBlank(message = "{NotBlank.veiculo.descricao}")
+    @Size(max = 300, message = "{Size.veiculo.descricao}")
+    @Column(nullable = false, length = 300)
+    private String descricao;
 
-	@Column(nullable = false, unique = true, length = 8)
-	private BigDecimal valor;
+    @NotNull(message = "{NotNull.veiculo.valor}")
+    @Min(value = 0, message = "{Min.veiculo.valor}")
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor;
 
-	@Column(nullable = false, unique = true, length = 10)
-	private String fotos[] = new String[10];
-
-	@ManyToOne
-	@JoinColumn(name = "loja_id")
-	private Loja loja;
+    @NotNull(message = "{NotNull.veiculo.loja}") // Se loja for obrigatória
+    @ManyToOne
+    @JoinColumn(name = "loja_id", nullable = false)
+    private Loja loja;
 
 
 	public String getPlaca() {
@@ -99,13 +113,6 @@ public class Veiculo extends AbstractEntity<Long> {
 		this.valor = valor;
 	}
 
-	public String[] getFotos() {
-		return fotos;
-	}
-
-	public void setFotos(String[] fotos) {
-		this.fotos = fotos;
-	}
 
 	public Loja getLoja() {
 		return loja;
@@ -114,6 +121,7 @@ public class Veiculo extends AbstractEntity<Long> {
 	public void setLoja(Loja loja) {
 		this.loja = loja;
 	}
+
 
 	
 }
