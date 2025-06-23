@@ -19,15 +19,18 @@ public class PropostaService implements IPropostaService {
 	@Autowired
 	IPropostaDAO dao;
 	
+	@Override
 	public void salvar(Proposta proposta) {
 		dao.save(proposta);
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public Proposta buscarPorId(Long id) {
 		return dao.findById(id.longValue());
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public List<Proposta> findByCliente(Cliente c) {
         return dao.findByCliente(c);

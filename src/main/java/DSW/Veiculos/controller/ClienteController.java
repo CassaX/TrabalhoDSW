@@ -1,8 +1,8 @@
 package DSW.Veiculos.controller;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,69 +15,78 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import DSW.Veiculos.domain.Cliente;
 import DSW.Veiculos.service.spec.IClienteService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/cliente")
 public class ClienteController {
-	
-	@Autowired
-	private IClienteService service;
-	
+    
+    @Autowired
+    private IClienteService clienteService;
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
-	@GetMapping("/cadastrar")
-	public String cadastrar(Cliente cliente) {
-		return "cliente/cadastro";
-	}
-	
-	@GetMapping("/listar")
-	public String listar(ModelMap model) {
-		model.addAttribute("clientes",service.buscarTodos());
-		return "cliente/lista";
-	}
-	
-	@PostMapping("/salvar")
-	public String salvar(@Valid Cliente cliente, BindingResult result, RedirectAttributes attr) {
-		
-		if (result.hasErrors()) {
-			return "cliente/cadastro";
-		}
-
-		System.out.println("password = " + cliente.getSenha());
-		cliente.setSenha(encoder.encode(cliente.getSenha()));
-		service.salvar(cliente);
-		attr.addFlashAttribute("sucess", "cliente.create.sucess");
-		return "redirect:/cliente/listar";
-	}
-	
-	@GetMapping("/editar/{id}")
-	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("cliente", service.buscarPorId(id));
-		return "cliente/cadastro";
-	}
-	
-	@PostMapping("/editar")
+    
+    @GetMapping("/cadastrar")
+    public String cadastrar(Cliente cliente) {
+        return "cliente/cadastro";
+    }
+    
+    @PostMapping("/salvar")
+    public String salvar(@Valid Cliente cliente, BindingResult result, RedirectAttributes attr) {
+        if (result.hasErrors()) {
+            return "cliente/cadastro";
+        }
+        
+        cliente.setRole("CLIENTE");
+        cliente.setEnabled(true);
+        clienteService.salvar(cliente);
+        attr.addFlashAttribute("success", "Cliente cadastrado com sucesso.");
+        return "redirect:/cliente/listar";
+    }
+    
+    @GetMapping("/editar/{id}")
+    public String preEditar(@PathVariable("id") Long id, ModelMap model) {
+        model.addAttribute("cliente", clienteService.buscarPorId(id));
+        return "cliente/cadastro";
+    }
+    
+    @PostMapping("/editar")
 	public String editar(@Valid Cliente cliente, String novoPassword, BindingResult result, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
-			return "cliente/cadastro";
+			return "usuario/cadastro";
 		}
 
 		if (novoPassword != null && !novoPassword.trim().isEmpty()) {
-			cliente.setSenha(novoPassword);(encoder.encode(novoPassword));
+			cliente.setSenha(encoder.encode(novoPassword));
 		} else {
 			System.out.println("Senha não foi editada");
 		}
-		service.salvar(cliente);
-		attr.addFlashAttribute("sucess", "cliente.edit.sucess");
-		return "redirect:/cliente/listar";
+		clienteService.salvar(cliente);
+		attr.addFlashAttribute("sucess", "usuario.edit.sucess");
+		return "redirect:/usuario/listar";
 	}
-	
-	@GetMapping("/excluir/{id}")
-	public String excluir(@PathVariable("id") Long id, ModelMap model) {
-		service.excluir(id);
-		model.addAttribute("sucess", "cliente.delete.sucess");
-		return listar(model);
-	}
+    
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
+        clienteService.excluir(id);
+        attr.addFlashAttribute("success", "Cliente removido com sucesso.");
+        return "redirect:/cliente/listar";
+    }
+    
+    @GetMapping("/listar")
+    public String listar(ModelMap model) {
+        model.addAttribute("clientes", clienteService.buscarTodos());
+        return "cliente/lista";
+    }
+    
+    @GetMapping("/perfil")
+    public String perfil(ModelMap model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Cliente cliente = clienteService.buscarPorEmail(email);
+        model.addAttribute("cliente", cliente);
+        return "cliente/perfil";
+    }
 }

@@ -41,7 +41,7 @@ public class EmailService {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void send(InternetAddress from, InternetAddress to, String subject, String body) {
 		send(from, to, subject, body, null);
 	}

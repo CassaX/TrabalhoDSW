@@ -1,0 +1,272 @@
+/* Estilos Gerais */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --gray-color: #95a5a6;
+    --white-color: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 0.375rem;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Layout */
+.container {
+    flex: 1;
+    padding-bottom: 2rem;
+}
+
+/* Cabeçalho */
+.navbar {
+    box-shadow: var(--shadow);
+    background-color: var(--dark-color) !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--light-color) !important;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+}
+
+/* Botões */
+.btn {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-outline-secondary {
+    border-color: var(--gray-color);
+    color: var(--gray-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--gray-color);
+    color: white;
+}
+
+/* Formulários */
+.form-control, .form-select {
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+.invalid-feedback {
+    color: var(--danger-color);
+    font-size: 0.875rem;
+}
+
+/* Alertas */
+.alert {
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.25rem;
+}
+
+.alert-danger {
+    background-color: rgba(231, 76, 60, 0.1);
+    border-color: rgba(231, 76, 60, 0.3);
+    color: var(--danger-color);
+}
+
+.alert-success {
+    background-color: rgba(46, 204, 113, 0.1);
+    border-color: rgba(46, 204, 113, 0.3);
+    color: #1a7d48;
+}
+
+/* Tabelas */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table th {
+    background-color: var(--light-color);
+    font-weight: 600;
+}
+
+/* Página de Login */
+.login-container {
+    max-width: 400px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Página de Registro */
+.register-container {
+    max-width: 800px;
+    margin: 3rem auto;
+}
+
+.register-tabs .nav-link {
+    color: var(--gray-color);
+}
+
+.register-tabs .nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Rodapé */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+footer h5 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        padding-top: 1rem;
+    }
+    
+    .login-container {
+        margin: 2rem auto;
+        padding: 1.5rem;
+    }
+    
+    .register-container {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+}
+
+/* Efeitos de hover para itens interativos */
+.list-group-item-action:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+    cursor: pointer;
+}
+
+/* Badges */
+.badge {
+    padding: 0.5em 0.75em;
+    font-weight: 600;
+}
+
+.bg-warning {
+    background-color: var(--warning-color) !important;
+}
+
+.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger-color) !important;
+}
+
+/* Página de Acesso Negado */
+.access-denied-container {
+    max-width: 600px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+/* Cards de Veículos */
+.vehicle-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.vehicle-card .card-body {
+    padding: 1.25rem;
+}
+
+.vehicle-card .card-title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.vehicle-card .card-text {
+    color: var(--gray-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Efeitos de transição */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

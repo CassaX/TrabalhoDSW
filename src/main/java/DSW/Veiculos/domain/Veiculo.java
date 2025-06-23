@@ -8,9 +8,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Veiculo")
-public class Veiculo extends AbstractEntity {
+public class Veiculo extends AbstractEntity<Long> {
 
 
 	@Column(nullable = false, unique = true, length = 7)

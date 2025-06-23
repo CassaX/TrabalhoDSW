@@ -7,34 +7,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import DSW.Veiculos.domain.Proposta;
-import DSW.Veiculos.domain.Veiculo;
-import DSW.Veiculos.DAO.IPropostaDAO;
 import DSW.Veiculos.DAO.IVeiculoDAO;
-import DSW.Veiculos.domain.Cliente;
-import DSW.Veiculos.service.spec.IPropostaService;
+import DSW.Veiculos.domain.Loja;
+import DSW.Veiculos.domain.Veiculo;
 import DSW.Veiculos.service.spec.IVeiculoService;
 
-public abstract class VeiculoService implements IVeiculoService{
+@Service
+@Transactional
+public  class VeiculoService implements IVeiculoService{
     @Autowired
-    IVeiculoDAO dao;
+    private IVeiculoDAO veiculoDAO;
 
+    @Override
     public void salvar(Veiculo veiculo) {
-		dao.save(veiculo);
-	}
+        veiculoDAO.save(veiculo);
+    }
 
-	public void excluir(Long id) {
-		dao.deleteById(id);
-	}
+    @Override
+    public List<Veiculo> buscarTodos() {
+        return veiculoDAO.findAll();
+    }
 
-	@Transactional(readOnly = true)
-	public Optional<Veiculo> buscarPorId(Long id) {
-		return dao.findById(id.longValue());
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public Veiculo buscarPorId(Long id) {
+        return veiculoDAO.findById(id.longValue());
+    }
 
-	@Transactional(readOnly = true)
-	public List<Veiculo> buscarTodos() {
-		return dao.findAll();
-	}
+    @Override
+    public void excluir(Long id) {
+        if (!veiculoDAO.existsById(id)) {
+            throw new IllegalArgumentException("Veículo não encontrado com ID: " + id);
+        }
+        veiculoDAO.deleteById(id);
+    }
+
+    @Override
+    public void editar(Veiculo veiculo) {
+        if (!veiculoDAO.existsById(veiculo.getId())) {
+            throw new IllegalArgumentException("Veículo não encontrado com ID: " + veiculo.getId());
+        }
+        veiculoDAO.save(veiculo);
+    }
+
+    @Override
+    public List<Veiculo> buscarPorLoja(Loja loja) {
+        return veiculoDAO.findByLoja(loja);
+    }
+
+    @Override
+    public List<Veiculo> buscarPorModelo(String modelo) {
+        return veiculoDAO.findByModelo(modelo);
+    }
 
 }

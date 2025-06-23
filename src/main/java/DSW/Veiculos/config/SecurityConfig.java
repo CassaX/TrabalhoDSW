@@ -20,8 +20,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/registro").permitAll()
                 .requestMatchers("/cliente/**").hasRole("CLIENTE")
                 .requestMatchers("/loja/**").hasRole("LOJA")
+                .requestMatchers("/veiculos/listar", "/veiculos/detalhes/**").permitAll()
+                .requestMatchers("/veiculos/**").hasRole("LOJA")
+                .requestMatchers("/propostas/**").hasAnyRole("CLIENTE", "LOJA")
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form

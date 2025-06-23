@@ -13,5 +13,9 @@ public interface IClienteService {
 
 	void salvar(Cliente cliente);
 
-	void excluir(Long id);	
+	void excluir(Long id);
+
+	Cliente buscarPorEmail(String email);
+
+    void editar(Cliente cliente);	
 }

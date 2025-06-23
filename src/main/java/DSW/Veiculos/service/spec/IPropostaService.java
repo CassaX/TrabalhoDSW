@@ -3,8 +3,8 @@ package DSW.Veiculos.service.spec;
 
 import java.util.List;
 
-import DSW.Veiculos.domain.Proposta;
 import DSW.Veiculos.domain.Cliente;
+import DSW.Veiculos.domain.Proposta;
 
 public interface IPropostaService {
 
