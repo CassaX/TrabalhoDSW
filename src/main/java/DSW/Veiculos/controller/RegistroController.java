@@ -22,36 +22,38 @@ public class RegistroController {
 
     @Autowired
     private IClienteService clienteService;
-    
+
     @Autowired
     private ILojaService lojaService;
-    
+
     @GetMapping
     public String registro(ModelMap model) {
         model.addAttribute("cliente", new Cliente());
         model.addAttribute("loja", new Loja());
-        model.addAttribute("org.springframework.validation.BindingResult.cliente", new BeanPropertyBindingResult(new Cliente(), "cliente"));
-        model.addAttribute("org.springframework.validation.BindingResult.loja", new BeanPropertyBindingResult(new Loja(), "loja")); //
+        model.addAttribute("org.springframework.validation.BindingResult.cliente",
+                new BeanPropertyBindingResult(new Cliente(), "cliente"));
+        model.addAttribute("org.springframework.validation.BindingResult.loja",
+                new BeanPropertyBindingResult(new Loja(), "loja")); //
         return "registro";
     }
-    
+
     @PostMapping("/cliente")
-    public String registrarCliente(@Valid Cliente cliente, BindingResult result, 
-                                 RedirectAttributes attr, ModelMap model) {
+    public String registrarCliente(@Valid Cliente cliente, BindingResult result,
+            RedirectAttributes attr, ModelMap model) {
         if (result.hasErrors()) {
-            model.addAttribute("loja", new Loja()); 
-            model.addAttribute("cliente", cliente); 
+            model.addAttribute("cliente", new Cliente());
+            model.addAttribute("cliente", cliente);
             model.addAttribute("org.springframework.validation.BindingResult.cliente", result); //
-            model.addAttribute("activeTab", "cliente"); 
+            model.addAttribute("activeTab", "cliente");
             return "registro";
         }
-        
+
         try {
-            cliente.setRole("CLIENTE"); 
-            cliente.setEnabled(true); 
+            cliente.setRole("CLIENTE");
+            cliente.setEnabled(true);
             // A senha do cliente será codificada no ClienteService.salvar()
-            clienteService.salvar(cliente); 
-            attr.addFlashAttribute("success", "usuario.create.sucess"); 
+            clienteService.salvar(cliente);
+            attr.addFlashAttribute("success", "usuario.create.sucess");
             attr.addFlashAttribute("successLogin", "Cliente registrado com sucesso! Faça login para continuar.");
             return "redirect:/login";
         } catch (IllegalArgumentException e) {
@@ -62,30 +64,30 @@ public class RegistroController {
             } else {
                 result.reject("globalError", null, e.getMessage());
             }
-            model.addAttribute("loja", new Loja()); 
-            model.addAttribute("cliente", cliente); 
+            model.addAttribute("loja", new Loja());
+            model.addAttribute("cliente", cliente);
             model.addAttribute("org.springframework.validation.BindingResult.cliente", result); //
-            model.addAttribute("activeTab", "cliente"); 
+            model.addAttribute("activeTab", "cliente");
             return "registro";
         }
     }
-    
+
     @PostMapping("/loja")
-    public String registrarLoja(@Valid Loja loja, BindingResult result, 
-                               RedirectAttributes attr, ModelMap model) {
+    public String registrarLoja(@Valid Loja loja, BindingResult result,
+            RedirectAttributes attr, ModelMap model) {
         if (result.hasErrors()) {
-            model.addAttribute("cliente", new Cliente()); 
-            model.addAttribute("loja", loja); 
+            model.addAttribute("loja", new Loja());
+            model.addAttribute("loja", loja);
             model.addAttribute("org.springframework.validation.BindingResult.loja", result); //
-            model.addAttribute("activeTab", "loja"); 
+            model.addAttribute("activeTab", "loja");
             return "registro";
         }
-        
+
         try {
-            loja.setRole("LOJA"); 
-            loja.setEnabled(true); 
+            loja.setRole("LOJA");
+            loja.setEnabled(true);
             // A senha da loja será codificada no LojaService.salvar()
-            lojaService.salvar(loja); 
+            lojaService.salvar(loja);
             attr.addFlashAttribute("success", "editora.create.sucess");
             attr.addFlashAttribute("successLogin", "Loja registrada com sucesso! Faça login para continuar.");
             return "redirect:/login";
@@ -97,10 +99,10 @@ public class RegistroController {
             } else {
                 result.reject("globalError", null, e.getMessage());
             }
-            model.addAttribute("cliente", new Cliente()); 
-            model.addAttribute("loja", loja); 
+            model.addAttribute("loja", new Loja());
+            model.addAttribute("loja", loja);
             model.addAttribute("org.springframework.validation.BindingResult.loja", result); //
-            model.addAttribute("activeTab", "loja"); 
+            model.addAttribute("activeTab", "loja");
             return "registro";
         }
     }
