@@ -2,6 +2,8 @@ package DSW.Veiculos.domain;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import DSW.Veiculos.validation.UniqueCPF;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +34,7 @@ public class Cliente extends AbstractEntity<Long> {
 	private String nome;
 
 	@NotBlank
-	@Column(nullable = false, length = 11)
+	@Column(nullable = false, length = 14)
 	private String telefone;
 
 	@NotBlank
@@ -40,6 +42,7 @@ public class Cliente extends AbstractEntity<Long> {
 	private String sexo;
 
 	@NotNull (message = "Data de nascimento é obrigatória") 
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(nullable = false, length = 10)
 	private LocalDate dataNascimento;
 
