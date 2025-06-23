@@ -9,9 +9,7 @@
         <h2 th:text="${veiculo.id == null} ? #{veiculo.cadastrar.label} : #{link.editar.label} + ' ' + #{sidebar.titulo.livro}"></h2>
 
         <div th:replace="~{fragments/alert}"></div>
-        <div th:replace="~{fragments/validacao}"></div>
-
-        <form th:action="${veiculo.id == null} ? @{/veiculos/salvar} : @{/veiculos/editar}" th:object="${veiculo}" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <div th:replace="~{fragments/validacao}"><div th:replace="~{fragments/validacao}"></div> </div> <form th:action="${veiculo.id == null} ? @{/veiculos/salvar} : @{/veiculos/editar}" th:object="${veiculo}" method="post" class="form-horizontal">
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:field="*{loja.id}" />
 
@@ -78,19 +76,6 @@
                            data-mask="000.000.000.000,00" data-mask-reverse="true" th:placeholder="#{veiculo.valor.label}"
                            th:classappend="${#fields.hasErrors('valor')} ? 'is-invalid'">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></div>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="photos" class="col-sm-2 col-form-label" th:text="#{veiculo.fotos.label} + ' (Max 10)'"></label>
-                <div class="col-sm-10">
-                    <input type="file" class="form-control-file" id="photos" name="photos" multiple accept="image/*">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}"></div>
-                    <div th:if="${veiculo.id != null and veiculo.fotosUrls != null}">
-                        <div th:each="photoUrl : ${veiculo.fotosUrls}" class="d-inline-block m-2">
-                            <img th:src="@{${photoUrl}}" style="width: 100px; height: 100px; object-fit: cover;" alt="Foto do Veículo"/>
-                        </div>
-                    </div>
                 </div>
             </div>
 

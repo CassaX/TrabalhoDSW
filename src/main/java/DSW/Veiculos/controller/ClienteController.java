@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import DSW.Veiculos.domain.Cliente;
@@ -26,23 +25,29 @@ public class ClienteController {
     private IClienteService clienteService;
 
 	@Autowired
-	private BCryptPasswordEncoder encoder;
-    
+	private BCryptPasswordEncoder encoder; // Mantenha aqui se precisar para o AdminConfig ou RegistroController
+
     @GetMapping("/cadastrar")
-    public String cadastrar(Cliente cliente) {
+    public String cadastrar(Cliente cliente, ModelMap model) { // Adicionado ModelMap
+        model.addAttribute("cliente", cliente); // Garante que a instância está no modelo
         return "cliente/cadastro";
     }
     
     @PostMapping("/salvar")
-    public String salvar(@Valid Cliente cliente, BindingResult result, RedirectAttributes attr) {
+    public String salvar(@Valid Cliente cliente, BindingResult result, RedirectAttributes attr, ModelMap model) { // Adicionado ModelMap
         if (result.hasErrors()) {
+            model.addAttribute("cliente", cliente); // Retorna o objeto para exibir erros
             return "cliente/cadastro";
         }
+        
+        // A codificação da senha já deve estar no ClienteService.salvar ou RegistroController
+        // Se a senha for codificada aqui, remova de lá para evitar dupla codificação.
+        // cliente.setSenha(encoder.encode(cliente.getSenha())); // Provavelmente já no RegistroController
         
         cliente.setRole("CLIENTE");
         cliente.setEnabled(true);
         clienteService.salvar(cliente);
-        attr.addFlashAttribute("success", "Cliente cadastrado com sucesso.");
+        attr.addFlashAttribute("success", "usuario.create.sucess");
         return "redirect:/cliente/listar";
     }
     
@@ -53,20 +58,29 @@ public class ClienteController {
     }
     
     @PostMapping("/editar")
-    public String editar(@Valid Cliente cliente, @RequestParam(value = "novoPassword", required = false) String novoPassword, BindingResult result, RedirectAttributes attr) {
-        if (result.hasErrors()) {
-            return "cliente/cadastro";
-        }
-        // A chamada para o serviço agora passará o novoPassword
-        clienteService.editar(cliente, novoPassword); // Modifique o service para aceitar novoPassword
-        attr.addFlashAttribute("sucess", "usuario.edit.sucess");
-        return "redirect:/cliente/listar";
-    }
+	public String editar(@Valid Cliente cliente, String novoPassword, BindingResult result, RedirectAttributes attr, ModelMap model) { // Adicionado ModelMap
+		
+		if (result.hasErrors()) {
+            model.addAttribute("cliente", cliente); // Retorna o objeto para exibir erros
+			return "cliente/cadastro";
+		}
+
+        // A lógica de senha deve ser movida para o ClienteService.editar
+		// if (novoPassword != null && !novoPassword.trim().isEmpty()) {
+		// 	cliente.setSenha(encoder.encode(novoPassword));
+		// } else {
+		// 	System.out.println("Senha não foi editada");
+		// }
         
+		clienteService.editar(cliente, novoPassword); // Chama o service que agora aceita novoPassword
+		attr.addFlashAttribute("success", "usuario.edit.sucess"); // Ajustei para 'success' e chave i18n
+		return "redirect:/cliente/listar";
+	}
+    
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
         clienteService.excluir(id);
-        attr.addFlashAttribute("success", "Cliente removido com sucesso.");
+        attr.addFlashAttribute("success", "usuario.delete.sucess"); // Ajustei para 'success' e chave i18n
         return "redirect:/cliente/listar";
     }
     

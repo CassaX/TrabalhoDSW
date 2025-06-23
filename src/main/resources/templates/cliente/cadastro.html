@@ -9,9 +9,7 @@
         <h2 th:text="${cliente.id == null} ? #{usuario.cadastrar.label} : #{link.editar.label} + ' ' + #{sidebar.titulo.usuario}"></h2>
 
         <div th:replace="~{fragments/alert}"></div>
-        <div th:replace="~{fragments/validacao}"></div>
-
-        <form th:action="${cliente.id == null} ? @{/cliente/salvar} : @{/cliente/editar}" th:object="${cliente}" method="post" class="form-horizontal">
+        <div th:replace="~{fragments/validacao}"></div><div th:replace="~{fragments/validacao}"></div> </div> <form th:action="${cliente.id == null} ? @{/cliente/salvar} : @{/cliente/editar}" th:object="${cliente}" method="post" class="form-horizontal">
             <input type="hidden" th:field="*{id}" />
 
             <div class="form-group row">
@@ -54,10 +52,10 @@
             <div class="form-group row">
                 <label for="cpf" class="col-sm-2 col-form-label" th:text="#{usuario.CPF.label}"></label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cpf" th:field="*{cpf}"
+                    <input type="text" class="form-control" id="cpf" th:field="*{CPF}"
                            data-mask="000.000.000-00" th:placeholder="#{usuario.CPF.label}"
-                           th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></div>
+                           th:classappend="${#fields.hasErrors('CPF')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('CPF')}" th:errors="*{CPF}"></div>
                 </div>
             </div>
 

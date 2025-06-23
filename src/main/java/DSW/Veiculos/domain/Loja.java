@@ -33,6 +33,13 @@ public class Loja extends AbstractEntity<Long> {
     @Column(nullable = false)
     private boolean enabled;
 
+    @NotBlank(message = "{NotBlank.loja.descricao}") 
+    @Size(max = 500, message = "{Size.loja.descricao}") 
+    @Column(nullable = true, length = 500) 
+    private String descricao;
+
+    
+
     @NotBlank
     @Column(nullable = false, length = 100, unique = true)
     private String email;
@@ -98,6 +105,14 @@ public class Loja extends AbstractEntity<Long> {
 
     public void setVeiculos(List<Veiculo> veiculos) {
         this.veiculos = veiculos;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     

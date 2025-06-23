@@ -9,9 +9,7 @@
         <h2 th:text="${loja.id == null} ? #{editora.cadastrar.label} : #{link.editar.label} + ' ' + #{sidebar.titulo.editora}"></h2>
 
         <div th:replace="~{fragments/alert}"></div>
-        <div th:replace="~{fragments/validacao}"></div>
-
-        <form th:action="${loja.id == null} ? @{/loja/salvar} : @{/loja/editar}" th:object="${loja}" method="post" class="form-horizontal">
+        <div th:replace="~{fragments/validacao}"></div><div th:replace="~{fragments/validacao}"></div>  <form th:action="${loja.id == null} ? @{/loja/salvar} : @{/loja/editar}" th:object="${loja}" method="post" class="form-horizontal">
             <input type="hidden" th:field="*{id}" />
 
             <div class="form-group row">
@@ -36,10 +34,10 @@
             <div class="form-group row" th:if="${loja.id == null}">
                 <label for="senha" class="col-sm-2 col-form-label" th:text="#{usuario.password.label}"></label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="senha" th:field="*{senha}"
+                    <input type="password" class="form-control" id="senha" th:field="*{password}"
                            th:placeholder="#{usuario.password.label}"
-                           th:classappend="${#fields.hasErrors('senha')} ? 'is-invalid'">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                 </div>
             </div>
             
@@ -55,10 +53,10 @@
             <div class="form-group row">
                 <label for="cnpj" class="col-sm-2 col-form-label" th:text="#{editora.cnpj.label}"></label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cnpj" th:field="*{cnpj}"
+                    <input type="text" class="form-control" id="cnpj" th:field="*{CNPJ}"
                            data-mask="00.000.000/0000-00" th:placeholder="#{editora.cnpj.label}"
-                           th:classappend="${#fields.hasErrors('cnpj')} ? 'is-invalid'">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}"></div>
+                           th:classappend="${#fields.hasErrors('CNPJ')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('CNPJ')}" th:errors="*{CNPJ}"></div>
                 </div>
             </div>
 

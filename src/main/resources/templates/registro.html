@@ -10,6 +10,7 @@
     <div class="container">
         <h1 th:text="#{registro.label}">Registrar</h1>
 
+        <div th:replace="~{fragments/alert}"></div>
         <ul class="nav nav-tabs" id="registroTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="cliente-tab" data-toggle="tab" href="#cliente" role="tab"
@@ -24,7 +25,7 @@
             <div class="tab-pane fade show active" id="cliente" role="tabpanel" aria-labelledby="cliente-tab">
                 <h3 class="mt-4">Cliente</h3>
                 <form th:action="@{/registro/cliente}" th:object="${cliente}" method="post" class="form-horizontal">
-                    <div th:replace="~{fragments/alert}"></div> <div th:replace="~{fragments/validacao (boundObject=${cliente})}"></div> <div class="form-group row">
+                    <div th:replace="~{fragments/validacao}"></div> <div th:replace="~{fragments/validacao}"></div> <div class="form-group row">
                         <label for="emailCliente" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" id="emailCliente" th:field="*{email}" placeholder="Email"
@@ -101,7 +102,7 @@
             <div class="tab-pane fade" id="loja" role="tabpanel" aria-labelledby="loja-tab">
                 <h3 class="mt-4">Loja</h3>
                 <form th:action="@{/registro/loja}" th:object="${loja}" method="post" class="form-horizontal">
-                    <div th:replace="~{fragments/alert}"></div> <div th:replace="~{fragments/validacao (boundObject=${loja})}"></div> <div class="form-group row">
+                    <div th:replace="~{fragments/validacao (boundObject=${loja})}"></div> <div class="form-group row">
                         <label for="emailLoja" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" id="emailLoja" th:field="*{email}" placeholder="Email"

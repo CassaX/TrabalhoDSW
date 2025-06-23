@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import DSW.Veiculos.domain.Loja;
@@ -25,20 +24,22 @@ public class LojaController {
     private ILojaService lojaService;
     
     @GetMapping("/cadastrar")
-    public String cadastrar(Loja loja) {
+    public String cadastrar(Loja loja, ModelMap model) { // Adicionado ModelMap para garantir o objeto no modelo
+        model.addAttribute("loja", loja); // Garante que a loja (nova instância) está no modelo
         return "loja/cadastro";
     }
     
     @PostMapping("/salvar")
-    public String salvar(@Valid Loja loja, BindingResult result, RedirectAttributes attr) {
+    public String salvar(@Valid Loja loja, BindingResult result, RedirectAttributes attr, ModelMap model) { // Adicionado ModelMap
         if (result.hasErrors()) {
+            model.addAttribute("loja", loja); // Retorna o objeto loja para preencher os campos e exibir erros
             return "loja/cadastro";
         }
         
         loja.setRole("LOJA");
         loja.setEnabled(true);
         lojaService.salvar(loja);
-        attr.addFlashAttribute("success", "Loja cadastrada com sucesso.");
+        attr.addFlashAttribute("success", "editora.create.sucess"); // Use chave de i18n
         return "redirect:/loja/listar";
     }
     
@@ -48,23 +49,23 @@ public class LojaController {
         return "loja/cadastro";
     }
     
-
     @PostMapping("/editar")
-    public String editar(@Valid Loja loja, @RequestParam(value = "novaSenha", required = false) String novaSenha, BindingResult result, RedirectAttributes attr) {
+    public String editar(@Valid Loja loja, String novaSenha, BindingResult result, RedirectAttributes attr, ModelMap model) { // Adicionado ModelMap
         if (result.hasErrors()) {
+            model.addAttribute("loja", loja); // Retorna o objeto loja para preencher os campos e exibir erros
             return "loja/cadastro";
         }
-        // Passar a nova senha para o service
-        lojaService.editar(loja, novaSenha); // Modifique o service para aceitar novaSenha
-        attr.addFlashAttribute("success", "editora.edit.sucess");
+        
+        lojaService.editar(loja, novaSenha); // Use o método que aceita novaSenha
+        attr.addFlashAttribute("success", "editora.edit.sucess"); // Use chave de i18n
         return "redirect:/loja/listar";
     }
     
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
         lojaService.excluir(id);
-        attr.addFlashAttribute("success", "Loja removida com sucesso.");
-        return "redirect:loja/listar";
+        attr.addFlashAttribute("success", "Loja removida com sucesso."); // Use chave de i18n
+        return "redirect:/loja/listar";
     }
     
     @GetMapping("/listar")

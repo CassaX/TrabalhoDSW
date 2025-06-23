@@ -9,7 +9,7 @@
         <h2 th:text="#{proposta.proporCompra.label} + ' para Veículo: ' + ${proposta.veiculo.modelo} + ' (' + ${proposta.veiculo.ano} + ')'"></h2>
 
         <div th:replace="~{fragments/alert}"></div>
-        <div th:replace="~{fragments/validacao}"></div>
+        <div th:replace="~{fragments/validacao}"></div><div th:replace="~{fragments/validacao}"></div> 
 
         <form th:action="@{/propostas/salvar}" th:object="${proposta}" method="post" class="form-horizontal">
             <input type="hidden" name="idVeiculo" th:value="${proposta.veiculo.id}" />
