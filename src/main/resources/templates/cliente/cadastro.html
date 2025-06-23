@@ -53,9 +53,9 @@
                 <label for="cpf" class="col-sm-2 col-form-label" th:text="#{usuario.CPF.label}"></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="cpf" th:field="*{CPF}"
-                           data-mask="000.000.000-00" th:placeholder="#{usuario.CPF.label}"
-                           th:classappend="${#fields.hasErrors('CPF')} ? 'is-invalid'">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('CPF')}" th:errors="*{CPF}"></div>
+                        data-mask="000.000.000-00" th:placeholder="#{usuario.CPF.label}"
+                        th:classappend="${#fields.hasErrors('CPF')} ? 'is-invalid'"
+                        th:attr="readonly=${cliente.id != null ? 'readonly' : null}"> <div class="invalid-feedback" th:if="${#fields.hasErrors('CPF')}" th:errors="*{CPF}"></div>
                 </div>
             </div>
 

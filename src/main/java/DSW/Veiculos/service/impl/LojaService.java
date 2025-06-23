@@ -25,7 +25,7 @@ public class LojaService implements ILojaService {
 	@Transactional(readOnly = true)
     @Override
     public Loja buscarPorId(Long id) {
-        return lojaDAO.findById(id.longValue());
+        return lojaDAO.findById(id).orElse(null); // Usando orElse(null) para Optional
     }
 
     @Override
@@ -45,11 +45,12 @@ public class LojaService implements ILojaService {
 
     @Override
     public Loja salvar(Loja loja) {
-        validarDadosUnicos(loja);
-        
-        loja.setPassword(passwordEncoder.encode(loja.getPassword()));
+
+        if (loja.getId() == null || (loja.getPassword() != null && !loja.getPassword().startsWith("$2a$"))) {
+            loja.setPassword(passwordEncoder.encode(loja.getPassword())); // Codifica aqui
+        }
         loja.setEnabled(true);
-        loja.setRole("LOJA");
+        loja.setRole("LOJA"); // Certifique-se que o role é definido aqui ou no controller de registro
         
         return lojaDAO.save(loja);
     }
@@ -57,48 +58,61 @@ public class LojaService implements ILojaService {
     @Override
     public Loja editar(Loja loja, String novaSenha) {
         Loja lojaExistente = buscarPorId(loja.getId());
-
+        
         if (lojaExistente == null) {
-            throw new IllegalArgumentException("Loja não encontrada para edição.");
+            throw new IllegalArgumentException("Loja não encontrada.");
         }
-
-        if (!lojaExistente.getCNPJ().equals(loja.getCNPJ())) {
-            throw new IllegalArgumentException("CNPJ não pode ser alterado");
-        }
-
+        
+        // Validação de unicidade para EMAIL (se alterado)
         if (!lojaExistente.getEmail().equals(loja.getEmail())) {
-            Loja lojaEmail = lojaDAO.findByEmail(loja.getEmail());
-            if (lojaEmail != null && !lojaEmail.getId().equals(loja.getId())) { 
-                throw new IllegalArgumentException("Email já em Uso");
+            Loja lojaEmailConflito = lojaDAO.findByEmail(loja.getEmail());
+            if (lojaEmailConflito != null && !lojaEmailConflito.getId().equals(loja.getId())) {
+                throw new IllegalArgumentException("Email Já em Uso.");
             }
         }
 
+        // Validação: CNPJ NÃO PODE SER ALTERADO.
+        // Se o CNPJ que veio do formulário for diferente do CNPJ original do banco, lance erro.
+        if (!lojaExistente.getCNPJ().equals(loja.getCNPJ())) {
+            throw new IllegalArgumentException("CNPJ não pode ser alterado.");
+        }
+        
+        // ATUALIZAÇÃO DA SENHA:
+        if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+            lojaExistente.setPassword(passwordEncoder.encode(novaSenha)); // Codifica a nova senha
+        }
+        // Se novaSenha é nula/vazia, a senha existente (já hashed) de lojaExistente é mantida.
+
+        // ATUALIZAÇÃO DOS OUTROS CAMPOS DA LOJA
         lojaExistente.setNome(loja.getNome());
         lojaExistente.setEmail(loja.getEmail());
+        lojaExistente.setDescricao(loja.getDescricao());
+        // IMPORTANTE: NÃO ATUALIZE O CNPJ AQUI, MANTENHA O CNPJ ORIGINAL DO BANCO
+        // lojaExistente.setCNPJ(loja.getCNPJ()); // <--- REMOVA OU COMENTE ESTA LINHA
 
-        // Lógica para atualização da senha
-        if (novaSenha != null && !novaSenha.trim().isEmpty()) {
-            lojaExistente.setPassword(passwordEncoder.encode(novaSenha));
-        }
-
-        return lojaDAO.save(lojaExistente); // Salvar as alterações
+        return lojaDAO.save(lojaExistente);
     }
 
     @Override
     public void excluir(Long id) {
         Loja loja = buscarPorId(id);
+        if (loja == null) {
+            throw new IllegalArgumentException("Loja não encontrada para exclusão.");
+        }
+        // TODO: Adicionar verificação de veículos vinculados antes de excluir
         lojaDAO.delete(loja);
     }
 
+    // Método auxiliar para validação de unicidade (para novos cadastros)
     private void validarDadosUnicos(Loja loja) {
-        Loja lojaExistente = lojaDAO.findByCNPJ(loja.getCNPJ());
-        if (lojaExistente != null) {
-            throw new IllegalArgumentException("CNPJ Já Cadastrado");
+        Loja lojaExistenteCNPJ = lojaDAO.findByCNPJ(loja.getCNPJ());
+        if (lojaExistenteCNPJ != null) {
+            throw new IllegalArgumentException("CNPJ Já Cadastrado.");
         }
         
-        Loja lojaEmail = lojaDAO.findByEmail(loja.getEmail());
-        if (lojaEmail != null) {
-            throw new IllegalArgumentException("Email Já em Uso");
+        Loja lojaExistenteEmail = lojaDAO.findByEmail(loja.getEmail());
+        if (lojaExistenteEmail != null) {
+            throw new IllegalArgumentException("Email Já em Uso.");
         }
     }
 }
